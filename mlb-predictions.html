@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLB Prop Predictions - SportsEdgeBet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #ffffff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .model-info {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-box .label {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .stat-box .value {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .filters {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group label {
+            font-weight: bold;
+        }
+
+        select, input {
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: none;
+            font-size: 1em;
+            background: rgba(255,255,255,0.9);
+            color: #333;
+        }
+
+        .predictions-table {
+            background: rgba(255,255,255,0.95);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #333;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+
+        th:hover {
+            background: rgba(0,0,0,0.1);
+        }
+
+        th.sortable::after {
+            content: ' ⇅';
+            opacity: 0.5;
+        }
+
+        th.sorted-asc::after {
+            content: ' ↑';
+            opacity: 1;
+        }
+
+        th.sorted-desc::after {
+            content: ' ↓';
+            opacity: 1;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tbody tr:hover {
+            background: #f5f5f5;
+        }
+
+        .confidence-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .confidence-very-high {
+            background: #22c55e;
+            color: white;
+        }
+
+        .confidence-high {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .confidence-medium {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .confidence-low {
+            background: #6b7280;
+            color: white;
+        }
+
+        .recommendation {
+            font-weight: bold;
+        }
+
+        .recommendation.over {
+            color: #22c55e;
+        }
+
+        .recommendation.under {
+            color: #ef4444;
+        }
+
+        .probability {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+        }
+
+        .error {
+            background: #ef4444;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .predictions-table {
+                overflow-x: auto;
+            }
+
+            table {
+                font-size: 0.9em;
+            }
+
+            th, td {
+                padding: 8px 10px;
+            }
+        }
+
+        .player-name {
+            font-weight: 600;
+            color: #1e40af;
+        }
+
+        .recent-stats {
+            font-size: 0.85em;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏆 MLB Total Bases Predictions</h1>
+            <p class="subtitle">AI-Powered Betting Edge Analysis</p>
+        </header>
+
+        <div class="model-info" id="modelInfo">
+            <div class="stat-box">
+                <div class="label">Model Accuracy (MAE)</div>
+                <div class="value" id="mae">-</div>
+            </div>
+            <div class="stat-box">
+                <div class="label">Total Players</div>
+                <div class="value" id="totalPlayers">-</div>
+            </div>
+            <div class="stat-box">
+                <div class="label">High Confidence Picks</div>
+                <div class="value" id="highConfidence">-</div>
+            </div>
+            <div class="stat-box">
+                <div class="label">Last Updated</div>
+                <div class="value" id="lastUpdated">-</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter-group">
+                abel>Filter by Confidence:</label>
+                <select id="confidenceFilter">
+                    <option value="all">All Picks</option>
+                    <option value="high" selected>High Confidence Only</option>
+                    <option value="very-high">Very High Only</option>
+                    <option value="medium">Medium+</option>
+                </select>
+
+                abel>Bet Type:</label>
+                <select id="betTypeFilter">
+                    <option value="all">All</option>
+                    <option value="over">OVER Only</option>
+                    <option value="under">UNDER Only</option>
+                </select>
+
+                abel>Search Player:</label>
+                <input type="text" id="playerSearch" placeholder="Player ID or name...">
+            </div>
+        </div>
+
+        <div class="predictions-table">
+            <table id="predictionsTable">
+                <thead>
+                    <tr>
+                        <th class="sortable" data-sort="player_id">Player ID</th>
+                        <th class="sortable" data-sort="recommendation">Recommendation</th>
+                        <th class="sortable" data-sort="confidence">Confidence</th>
+                        <th class="sortable" data-sort="probability">Win Probability</th>
+                        <th class="sortable" data-sort="predicted_tb">Predicted TB</th>
+                        <th class="sortable" data-sort="recent_tb">Recent Avg TB</th>
+                        <th class="sortable" data-sort="exit_velo">Exit Velo</th>
+                        <th class="sortable" data-sort="hard_hit">Hard Hit %</th>
+                    </tr>
+                </thead>
+                <tbody id="predictionsBody">
+                    <tr>
+                        <td colspan="8" class="loading">Loading predictions...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let allPredictions = [];
+        let currentSort = { column: 'probability', direction: 'desc' };
+
+        // Load predictions from JSON
+        async function loadPredictions() {
+            try {
+                const response = await fetch('data/predictions.json');
+                const data = await response.json();
+                
+                // Update model info
+                document.getElementById('mae').textContent = data.model_performance.mae.toFixed(3);
+                document.getElementById('totalPlayers').textContent = data.total_players;
+                document.getElementById('highConfidence').textContent = data.high_confidence_picks.length;
+                
+                const updateTime = new Date(data.generated_at);
+                document.getElementById('lastUpdated').textContent = updateTime.toLocaleString();
+                
+                allPredictions = data.all_predictions;
+                filterAndDisplay();
+            } catch (error) {
+                document.getElementById('predictionsBody').innerHTML = 
+                    `<tr><td colspan="8" class="error">Error loading predictions: ${error.message}</td></tr>`;
+            }
+        }
+
+        // Filter and display predictions
+        function filterAndDisplay() {
+            const confidenceFilter = document.getElementById('confidenceFilter').value;
+            const betTypeFilter = document.getElementById('betTypeFilter').value;
+            const searchTerm = document.getElementById('playerSearch').value.toLowerCase();
+
+            let filtered = allPredictions.filter(pred => {
+                // Confidence filter
+                const confidence = pred.confidence.toLowerCase();
+                if (confidenceFilter === 'very-high' && !confidence.includes('very high')) return false;
+                if (confidenceFilter === 'high' && !confidence.includes('high')) return false;
+                if (confidenceFilter === 'medium' && confidence.includes('low')) return false;
+
+                // Bet type filter
+                if (betTypeFilter === 'over' && !pred.recommendation.includes('OVER')) return false;
+                if (betTypeFilter === 'under' && !pred.recommendation.includes('UNDER')) return false;
+
+                // Search filter
+                if (searchTerm && !pred.player_id.toString().includes(searchTerm)) return false;
+
+                return true;
+            });
+
+            // Sort
+            filtered = sortPredictions(filtered);
+
+            displayPredictions(filtered);
+        }
+
+        // Sort predictions
+        function sortPredictions(predictions) {
+            return predictions.sort((a, b) => {
+                let aVal, bVal;
+
+                switch(currentSort.column) {
+                    case 'player_id':
+                        aVal = a.player_id;
+                        bVal = b.player_id;
+                        break;
+                    case 'probability':
+                        aVal = a.probabilities.over_1.5;
+                        bVal = b.probabilities.over_1.5;
+                        break;
+                    case 'predicted_tb':
+                        aVal = a.predicted_tb;
+                        bVal = b.predicted_tb;
+                        break;
+                    case 'recent_tb':
+                        aVal = a.recent_stats.avg_tb_last_10;
+                        bVal = b.recent_stats.avg_tb_last_10;
+                        break;
+                    case 'exit_velo':
+                        aVal = a.recent_stats.avg_exit_velo;
+                        bVal = b.recent_stats.avg_exit_velo;
+                        break;
+                    case 'hard_hit':
+                        aVal = a.recent_stats.hard_hit_rate;
+                        bVal = b.recent_stats.hard_hit_rate;
+                        break;
+                    default:
+                        return 0;
+                }
+
+                if (currentSort.direction === 'asc') {
+                    return aVal > bVal ? 1 : -1;
+                } else {
+                    return aVal < bVal ? 1 : -1;
+                }
+            });
+        }
+
+        // Display predictions in table
+        function displayPredictions(predictions) {
+            const tbody = document.getElementById('predictionsBody');
+            
+            if (predictions.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:30px;">No predictions match your filters</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = predictions.map(pred => {
+                const confidenceClass = pred.confidence.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '');
+                const betClass = pred.recommendation.includes('OVER') ? 'over' : 'under';
+                const probability = pred.recommendation.includes('OVER') ? 
+                    pred.probabilities.over_1.5 : 
+                    (100 - pred.probabilities.over_1.5);
+
+                return `
+                    <tr>
+                        <td class="player-name">${pred.player_id}</td>
+                        <td class="recommendation ${betClass}">${pred.recommendation}</td>
+                        <td><span class="confidence-badge confidence-${confidenceClass}">${pred.confidence}</span></td>
+                        <td class="probability">${probability.toFixed(1)}%</td>
+                        <td>${pred.predicted_tb.toFixed(2)}</td>
+                        <td>${pred.recent_stats.avg_tb_last_10.toFixed(2)}</td>
+                        <td>${pred.recent_stats.avg_exit_velo.toFixed(1)} mph</td>
+                        <td>${pred.recent_stats.hard_hit_rate.toFixed(1)}%</td>
+                    </tr>
+                `;
