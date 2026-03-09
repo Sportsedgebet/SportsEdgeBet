@@ -271,7 +271,7 @@
 
         <div class="filters">
             <div class="filter-group">
-                abel>Filter by Confidence:</label>
+                <label>Filter by Confidence:</label>
                 <select id="confidenceFilter">
                     <option value="all">All Picks</option>
                     <option value="high" selected>High Confidence Only</option>
@@ -279,32 +279,34 @@
                     <option value="medium">Medium+</option>
                 </select>
 
-                abel>Bet Type:</label>
+                <label>Bet Type:</label>
                 <select id="betTypeFilter">
                     <option value="all">All</option>
                     <option value="over">OVER Only</option>
                     <option value="under">UNDER Only</option>
                 </select>
 
-                abel>Search Player:</label>
+                <label>Search Player:</label>
                 <input type="text" id="playerSearch" placeholder="Player ID or name...">
             </div>
         </div>
 
         <div class="predictions-table">
             <table id="predictionsTable">
-                <thead>
-                    <tr>
-                        <th class="sortable" data-sort="player_id">Player ID</th>
-                        <th class="sortable" data-sort="recommendation">Recommendation</th>
-                        <th class="sortable" data-sort="confidence">Confidence</th>
-                        <th class="sortable" data-sort="probability">Win Probability</th>
-                        <th class="sortable" data-sort="predicted_tb">Predicted TB</th>
-                        <th class="sortable" data-sort="recent_tb">Recent Avg TB</th>
-                        <th class="sortable" data-sort="exit_velo">Exit Velo</th>
-                        <th class="sortable" data-sort="hard_hit">Hard Hit %</th>
-                    </tr>
-                </thead>
+             <thead>
+    <tr>
+        <th class="sortable" data-sort="player_id">Player</th>
+        <th class="sortable" data-sort="recommendation">Best Bet</th>
+        <th class="sortable" data-sort="confidence">Confidence</th>
+        <th class="sortable" data-sort="probability">Win %</th>
+        <th class="sortable" data-sort="predicted_tb">Pred TB</th>
+        <th class="sortable" data-sort="predicted_hits">Pred Hits</th>
+        <th class="sortable" data-sort="predicted_k">Pred K</th>
+        <th class="sortable" data-sort="recent_tb">Recent TB</th>
+        <th class="sortable" data-sort="exit_velo">Exit Velo</th>
+        <th class="sortable" data-sort="hard_hit">Hard Hit %</th>
+    </tr>
+</thead>
                 <tbody id="predictionsBody">
                     <tr>
                         <td colspan="8" class="loading">Loading predictions...</td>
@@ -315,165 +317,212 @@
     </div>
 
     <script>
-        let allPredictions = [];
-        let currentSort = { column: 'probability', direction: 'desc' };
+    let allPredictions = [];
+    let currentSort = { column: 'probability', direction: 'desc' };
 
-        // Load predictions from JSON
-        async function loadPredictions() {
-            try {
-                const response = await fetch('data/predictions.json');
-                const data = await response.json();
-                
-                // Update model info
-                document.getElementById('mae').textContent = data.model_performance.mae.toFixed(3);
-                document.getElementById('totalPlayers').textContent = data.total_players;
-                document.getElementById('highConfidence').textContent = data.high_confidence_picks.length;
-                
-                const updateTime = new Date(data.generated_at);
-                document.getElementById('lastUpdated').textContent = updateTime.toLocaleString();
-                
-                allPredictions = data.all_predictions;
-                filterAndDisplay();
-            } catch (error) {
-                document.getElementById('predictionsBody').innerHTML = 
-                    `<tr><td colspan="8" class="error">Error loading predictions: ${error.message}</td></tr>`;
-            }
-        }
+    // Load predictions from JSON
+    async function loadPredictions() {
+        try {
+            const response = await fetch('data/predictions.json');
+            const data = await response.json();
 
-        // Filter and display predictions
-        function filterAndDisplay() {
-            const confidenceFilter = document.getElementById('confidenceFilter').value;
-            const betTypeFilter = document.getElementById('betTypeFilter').value;
-            const searchTerm = document.getElementById('playerSearch').value.toLowerCase();
+            // Update model info
+            document.getElementById('mae').textContent = data.model_performance.mae.toFixed(3);
+            document.getElementById('totalPlayers').textContent = data.total_players;
 
-            let filtered = allPredictions.filter(pred => {
-                // Confidence filter
-                const confidence = pred.confidence.toLowerCase();
-                if (confidenceFilter === 'very-high' && !confidence.includes('very high')) return false;
-                if (confidenceFilter === 'high' && !confidence.includes('high')) return false;
-                if (confidenceFilter === 'medium' && confidence.includes('low')) return false;
+            const rawPlayers = data.all_predictions || [];
 
-                // Bet type filter
-                if (betTypeFilter === 'over' && !pred.recommendation.includes('OVER')) return false;
-                if (betTypeFilter === 'under' && !pred.recommendation.includes('UNDER')) return false;
+            // Enrich each player with a primary/“best” bet and convenience fields
+            allPredictions = rawPlayers.map(p => {
+                const bets = Array.isArray(p.recommended_bets) ? p.recommended_bets : [];
+                // Choose highest-probability bet as primary
+                const primaryBet = bets.length
+                    ? bets.reduce((best, b) => (b.prob > best.prob ? b : best), bets[0])
+                    : { prop: 'None', line: 'No edge', confidence: 'LOW', prob: 50 };
 
-                // Search filter
-                if (searchTerm && !pred.player_id.toString().includes(searchTerm)) return false;
-
-                return true;
+                return {
+                    ...p,
+                    primaryBet,
+                    recommendation: `${primaryBet.prop}: ${primaryBet.line}`,
+                    confidence: primaryBet.confidence,
+                    probability: primaryBet.prob
+                };
             });
 
-            // Sort
-            filtered = sortPredictions(filtered);
+            const highConfCount = allPredictions.filter(p => {
+                const c = (p.confidence || '').toUpperCase();
+                return c === 'HIGH' || c === 'VERY HIGH';
+            }).length;
+            document.getElementById('highConfidence').textContent = highConfCount;
 
-            displayPredictions(filtered);
+            const updateTime = new Date(data.generated_at);
+            document.getElementById('lastUpdated').textContent = updateTime.toLocaleString();
+
+            filterAndDisplay();
+        } catch (error) {
+            document.getElementById('predictionsBody').innerHTML =
+                `<tr><td colspan="10" class="error">Error loading predictions: ${error.message}</td></tr>`;
         }
+    }
 
-        // Sort predictions
-        function sortPredictions(predictions) {
-            return predictions.sort((a, b) => {
-                let aVal, bVal;
+    // Filter and display predictions
+    function filterAndDisplay() {
+        const confidenceFilter = document.getElementById('confidenceFilter').value;
+        const betTypeFilter = document.getElementById('betTypeFilter').value;
+        const searchTerm = document.getElementById('playerSearch').value.toLowerCase();
 
-                switch(currentSort.column) {
-                    case 'player_id':
-                        aVal = a.player_id;
-                        bVal = b.player_id;
-                        break;
-                   case 'probability':
-                        aVal = a.probabilities["over_1.5"];
-                        bVal = b.probabilities["over_1.5"];
-                        break;
-                    case 'predicted_tb':
-                        aVal = a.predicted_tb;
-                        bVal = b.predicted_tb;
-                        break;
-                    case 'recent_tb':
-                        aVal = a.recent_stats.avg_tb_last_10;
-                        bVal = b.recent_stats.avg_tb_last_10;
-                        break;
-                    case 'exit_velo':
-                        aVal = a.recent_stats.avg_exit_velo;
-                        bVal = b.recent_stats.avg_exit_velo;
-                        break;
-                    case 'hard_hit':
-                        aVal = a.recent_stats.hard_hit_rate;
-                        bVal = b.recent_stats.hard_hit_rate;
-                        break;
-                    default:
-                        return 0;
-                }
+        let filtered = allPredictions.filter(pred => {
+            const confidence = (pred.confidence || '').toLowerCase();
+            const recommendation = pred.recommendation || '';
 
-                if (currentSort.direction === 'asc') {
-                    return aVal > bVal ? 1 : -1;
-                } else {
-                    return aVal < bVal ? 1 : -1;
-                }
-            });
-        }
+            // Confidence filter
+            if (confidenceFilter === 'very-high' && !confidence.includes('very high')) return false;
+            if (confidenceFilter === 'high' && !confidence.includes('high')) return false;
+            if (confidenceFilter === 'medium' && confidence.includes('low')) return false;
 
-        // Display predictions in table
-        function displayPredictions(predictions) {
-            const tbody = document.getElementById('predictionsBody');
-            
-            if (predictions.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:30px;">No predictions match your filters</td></tr>';
-                return;
+            // Bet type filter (OVER/UNDER)
+            if (betTypeFilter === 'over' && !recommendation.includes('OVER')) return false;
+            if (betTypeFilter === 'under' && !recommendation.includes('UNDER')) return false;
+
+            // Search filter (by id or name)
+            if (searchTerm) {
+                const idMatch = pred.player_id.toString().includes(searchTerm);
+                const nameMatch = (pred.player_name || '').toLowerCase().includes(searchTerm);
+                if (!idMatch && !nameMatch) return false;
             }
 
-            tbody.innerHTML = predictions.map(pred => {
-                const confidenceClass = pred.confidence.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '');
-                const betClass = pred.recommendation.includes('OVER') ? 'over' : 'under';
-                const probability = pred.recommendation.includes('OVER') ? 
-                    pred.probabilities["over_1.5"] : 
-                    (100 - pred.probabilities["over_1.5"]);
-
-
-                return `
-                    <tr>
-                        <td class="player-name">${pred.player_id}</td>
-                        <td class="recommendation ${betClass}">${pred.recommendation}</td>
-                        <td><span class="confidence-badge confidence-${confidenceClass}">${pred.confidence}</span></td>
-                        <td class="probability">${probability.toFixed(1)}%</td>
-                        <td>${pred.predicted_tb.toFixed(2)}</td>
-                        <td>${pred.recent_stats.avg_tb_last_10.toFixed(2)}</td>
-                        <td>${pred.recent_stats.avg_exit_velo.toFixed(1)} mph</td>
-                        <td>${pred.recent_stats.hard_hit_rate.toFixed(1)}%</td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        // Handle column sorting
-        document.querySelectorAll('th.sortable').forEach(th => {
-            th.addEventListener('click', () => {
-                const column = th.dataset.sort;
-                
-                // Toggle direction if same column, otherwise default to desc
-                if (currentSort.column === column) {
-                    currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
-                } else {
-                    currentSort.column = column;
-                    currentSort.direction = 'desc';
-                }
-
-                // Update sort indicators
-                document.querySelectorAll('th.sortable').forEach(header => {
-                    header.classList.remove('sorted-asc', 'sorted-desc');
-                });
-                
-                th.classList.add(currentSort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
-
-                filterAndDisplay();
-            });
+            return true;
         });
 
-        // Handle filter changes
-        document.getElementById('confidenceFilter').addEventListener('change', filterAndDisplay);
-        document.getElementById('betTypeFilter').addEventListener('change', filterAndDisplay);
-        document.getElementById('playerSearch').addEventListener('input', filterAndDisplay);
+        // Sort
+        filtered = sortPredictions(filtered);
 
-        // Load predictions on page load
-        loadPredictions();
-    </script>
+        displayPredictions(filtered);
+    }
+
+    // Sort predictions
+    function sortPredictions(predictions) {
+        return predictions.sort((a, b) => {
+            let aVal, bVal;
+
+            switch (currentSort.column) {
+                case 'player_id':
+                    aVal = a.player_id;
+                    bVal = b.player_id;
+                    break;
+                case 'probability':
+                    aVal = a.probability ?? 0;
+                    bVal = b.probability ?? 0;
+                    break;
+                case 'predicted_tb':
+                    aVal = a.total_bases?.predicted ?? 0;
+                    bVal = b.total_bases?.predicted ?? 0;
+                    break;
+                case 'predicted_hits':
+                    aVal = a.hits?.predicted ?? 0;
+                    bVal = b.hits?.predicted ?? 0;
+                    break;
+                case 'predicted_k':
+                    aVal = a.strikeouts?.predicted ?? 0;
+                    bVal = b.strikeouts?.predicted ?? 0;
+                    break;
+                case 'recent_tb':
+                    aVal = a.recent_stats?.avg_tb ?? 0;
+                    bVal = b.recent_stats?.avg_tb ?? 0;
+                    break;
+                case 'exit_velo':
+                    aVal = a.recent_stats?.exit_velo ?? 0;
+                    bVal = b.recent_stats?.exit_velo ?? 0;
+                    break;
+                case 'hard_hit':
+                    aVal = a.recent_stats?.hard_hit_rate ?? 0;
+                    bVal = b.recent_stats?.hard_hit_rate ?? 0;
+                    break;
+                default:
+                    return 0;
+            }
+
+            if (currentSort.direction === 'asc') {
+                return aVal > bVal ? 1 : -1;
+            } else {
+                return aVal < bVal ? 1 : -1;
+            }
+        });
+    }
+
+    // Display predictions in table
+    function displayPredictions(predictions) {
+        const tbody = document.getElementById('predictionsBody');
+
+        if (predictions.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding:30px;">No predictions match your filters</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = predictions.map(pred => {
+            const confidenceClass = (pred.confidence || 'low').toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '');
+            const rec = pred.recommendation || '';
+            const betClass = rec.includes('OVER') ? 'over' : (rec.includes('UNDER') ? 'under' : '');
+            const probability = pred.probability ?? 50;
+
+            const tbPred = pred.total_bases?.predicted ?? 0;
+            const hitsPred = pred.hits?.predicted ?? 0;
+            const kPred = pred.strikeouts?.predicted ?? 0;
+
+            const recentTb = pred.recent_stats?.avg_tb ?? 0;
+            const exitVelo = pred.recent_stats?.exit_velo ?? 0;
+            const hardHit = (pred.recent_stats?.hard_hit_rate ?? 0);
+
+            const playerLabel = pred.player_name
+                ? `${pred.player_name} (#${pred.player_id})`
+                : pred.player_id;
+
+            return `
+                <tr>
+                    <td class="player-name">${playerLabel}</td>
+                    <td class="recommendation ${betClass}">${rec}</td>
+                    <td><span class="confidence-badge confidence-${confidenceClass}">${pred.confidence}</span></td>
+                    <td class="probability">${probability.toFixed(1)}%</td>
+                    <td>${tbPred.toFixed(2)}</td>
+                    <td>${hitsPred.toFixed(2)}</td>
+                    <td>${kPred.toFixed(2)}</td>
+                    <td>${recentTb.toFixed(2)}</td>
+                    <td>${exitVelo.toFixed(1)} mph</td>
+                    <td>${hardHit.toFixed(1)}%</td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    // Handle column sorting
+    document.querySelectorAll('th.sortable').forEach(th => {
+        th.addEventListener('click', () => {
+            const column = th.dataset.sort;
+
+            if (currentSort.column === column) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.column = column;
+                currentSort.direction = 'desc';
+            }
+
+            document.querySelectorAll('th.sortable').forEach(header => {
+                header.classList.remove('sorted-asc', 'sorted-desc');
+            });
+
+            th.classList.add(currentSort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
+
+            filterAndDisplay();
+        });
+    });
+
+    // Handle filter changes
+    document.getElementById('confidenceFilter').addEventListener('change', filterAndDisplay);
+    document.getElementById('betTypeFilter').addEventListener('change', filterAndDisplay);
+    document.getElementById('playerSearch').addEventListener('input', filterAndDisplay);
+
+    // Load predictions on page load
+    loadPredictions();
+</script>
 </body>
 </html>
