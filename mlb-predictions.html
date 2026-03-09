@@ -439,3 +439,40 @@
                         <td>${pred.recent_stats.hard_hit_rate.toFixed(1)}%</td>
                     </tr>
                 `;
+            }).join('');
+        }
+
+        // Handle column sorting
+        document.querySelectorAll('th.sortable').forEach(th => {
+            th.addEventListener('click', () => {
+                const column = th.dataset.sort;
+                
+                // Toggle direction if same column, otherwise default to desc
+                if (currentSort.column === column) {
+                    currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                } else {
+                    currentSort.column = column;
+                    currentSort.direction = 'desc';
+                }
+
+                // Update sort indicators
+                document.querySelectorAll('th.sortable').forEach(header => {
+                    header.classList.remove('sorted-asc', 'sorted-desc');
+                });
+                
+                th.classList.add(currentSort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
+
+                filterAndDisplay();
+            });
+        });
+
+        // Handle filter changes
+        document.getElementById('confidenceFilter').addEventListener('change', filterAndDisplay);
+        document.getElementById('betTypeFilter').addEventListener('change', filterAndDisplay);
+        document.getElementById('playerSearch').addEventListener('input', filterAndDisplay);
+
+        // Load predictions on page load
+        loadPredictions();
+    </script>
+</body>
+</html>
