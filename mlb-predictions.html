@@ -379,9 +379,9 @@
                         aVal = a.player_id;
                         bVal = b.player_id;
                         break;
-                    case 'probability':
-                        aVal = a.probabilities.over_1.5;
-                        bVal = b.probabilities.over_1.5;
+                   case 'probability':
+                        aVal = a.probabilities["over_1.5"];
+                        bVal = b.probabilities["over_1.5"];
                         break;
                     case 'predicted_tb':
                         aVal = a.predicted_tb;
@@ -424,8 +424,9 @@
                 const confidenceClass = pred.confidence.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '');
                 const betClass = pred.recommendation.includes('OVER') ? 'over' : 'under';
                 const probability = pred.recommendation.includes('OVER') ? 
-                    pred.probabilities.over_1.5 : 
-                    (100 - pred.probabilities.over_1.5);
+                    pred.probabilities["over_1.5"] : 
+                    (100 - pred.probabilities["over_1.5"]);
+
 
                 return `
                     <tr>
