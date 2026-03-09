@@ -23,6 +23,9 @@ GITHUB_REPO_PATH = r'C:\Users\bruce\Github\SportsEdgeBet'
 MODEL_PATH = os.path.join(GITHUB_REPO_PATH, 'models', 'mlb_tb_model.pkl')
 FEATURE_INFO_PATH = os.path.join(GITHUB_REPO_PATH, 'models', 'feature_info.pkl')
 OUTPUT_FILE = os.path.join(GITHUB_REPO_PATH, 'data', 'predictions.json')
+# Optional matchup inputs
+PITCHER_STATS_FILE = os.path.join(GITHUB_REPO_PATH, 'models', 'pitcher_season_stats.csv')
+TODAY_MATCHUPS_FILE = os.path.join(GITHUB_REPO_PATH, 'data', 'today_matchups.csv')
 
 # Data-quality + display guardrails
 # These prevent "fake" 0.0 projections turning into 0% / 100% win rates.
@@ -149,13 +152,51 @@ print(f"✓ Sample-size filter: {before_filter} → {len(latest_batters)} batter
 
 print(f"✓ Calculated rolling averages for {len(latest_batters)} batters")
 
-# Add pitcher stats (league average)
+# Add pitcher stats / matchup features
+print("\nEnriching with pitcher matchup data (if available)...")
 latest_batters['pitcher_xba'] = 0.245
 latest_batters['pitcher_xwoba'] = 0.315
 latest_batters['pitcher_xslg'] = 0.400
 latest_batters['pitcher_k_rate'] = 0.22
 
-# Matchup differentials
+# Optional: per-batter opposing pitcher for today
+if os.path.exists(TODAY_MATCHUPS_FILE) and os.path.exists(PITCHER_STATS_FILE):
+    try:
+        matchups = pd.read_csv(TODAY_MATCHUPS_FILE)
+        pitcher_stats = pd.read_csv(PITCHER_STATS_FILE)
+
+        # Expect columns: player_id, opposing_pitcher_id, pitcher_throws (optional)
+        if 'player_id' in matchups.columns and 'opposing_pitcher_id' in matchups.columns:
+            latest_batters = latest_batters.merge(
+                matchups[['player_id', 'opposing_pitcher_id']],
+                on='player_id',
+                how='left'
+            )
+
+            pitcher_stats = pitcher_stats.rename(columns={'pitcher_id': 'opposing_pitcher_id'})
+            latest_batters = latest_batters.merge(
+                pitcher_stats[['opposing_pitcher_id', 'pitcher_xba', 'pitcher_xwoba', 'pitcher_xslg', 'pitcher_k_rate']],
+                on='opposing_pitcher_id',
+                how='left',
+                suffixes=('', '_from_stats')
+            )
+
+            # Prefer matchup-specific stats where available
+            for col in ['pitcher_xba', 'pitcher_xwoba', 'pitcher_xslg', 'pitcher_k_rate']:
+                from_stats = f"{col}_from_stats"
+                if from_stats in latest_batters.columns:
+                    latest_batters[col] = latest_batters[from_stats].combine_first(latest_batters[col])
+
+            print("✓ Applied matchup-specific pitcher stats from today_matchups.csv")
+        else:
+            print("⚠ today_matchups.csv missing required columns (player_id, opposing_pitcher_id); using league-average pitcher profile.")
+    except Exception as e:
+        print(f"⚠ Error applying matchup-specific pitcher data: {e}")
+        print("  Falling back to league-average pitcher profile.")
+else:
+    print("ℹ No today_matchups.csv or pitcher_season_stats.csv found; using league-average pitcher profile.")
+
+# Matchup differentials (vs either specific pitcher or generic league profile)
 latest_batters['xba_diff'] = latest_batters['rolling_xba_10'] - latest_batters['pitcher_xba']
 latest_batters['xwoba_diff'] = latest_batters['rolling_xwoba_10'] - latest_batters['pitcher_xwoba']
 latest_batters['xslg_diff'] = latest_batters['rolling_xslg_10'] - latest_batters['pitcher_xslg']
