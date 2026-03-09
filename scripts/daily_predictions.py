@@ -19,7 +19,7 @@ print(f"Date: {datetime.now().strftime('%Y-%m-%d %I:%M %p')}")
 print("="*60)
 
 # Configuration - UPDATE THESE PATHS
-GITHUB_REPO_PATH = r'C:\Users\bruce\path\to\SportsEdgeBet'  # ⚠️ UPDATE THIS
+GITHUB_REPO_PATH = r'C:\Users\bruce\Github\SportsEdgeBet'  # ⚠️ UPDATE THIS
 MODEL_PATH = os.path.join(GITHUB_REPO_PATH, 'models', 'mlb_tb_model.pkl')
 FEATURE_INFO_PATH = os.path.join(GITHUB_REPO_PATH, 'models', 'feature_info.pkl')
 OUTPUT_FILE = os.path.join(GITHUB_REPO_PATH, 'data', 'predictions.json')
@@ -41,7 +41,7 @@ except Exception as e:
     exit(1)
 
 # Get recent data for rolling averages
-today = datetime.now()
+today = datetime(2025, 9, 28)  # Testing with 2025 data until 2026 season starts
 lookback_days = 15  # Get last 15 days for rolling averages
 
 print(f"\nDownloading recent batter data (last {lookback_days} days)...")
@@ -105,6 +105,7 @@ batter_games = batter_games.merge(outcome_stats, on=['player_id', 'game_pk'], ho
 
 # Calculate K%
 pa_counts = outcomes.groupby(['batter', 'game_pk']).size().reset_index(name='pa')
+pa_counts = pa_counts.rename(columns={'batter': 'player_id'})
 batter_games = batter_games.merge(pa_counts, on=['player_id', 'game_pk'], how='left')
 batter_games['k_percent'] = (batter_games['so'] / batter_games['pa']).fillna(0)
 
