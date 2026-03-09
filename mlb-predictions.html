@@ -246,8 +246,8 @@
 <body>
     <div class="container">
         <header>
-            <h1>🏆 MLB Total Bases Predictions</h1>
-            <p class="subtitle">AI-Powered Betting Edge Analysis</p>
+            <h1>🏆 MLB Prop Predictions</h1>
+            <p class="subtitle">AI-Powered TB / Hits / Strikeouts betting edge</p>
         </header>
 
         <div class="model-info" id="modelInfo">
@@ -291,6 +291,32 @@
             </div>
         </div>
 
+        <div style="margin: 18px 0 10px; font-weight: 700; letter-spacing: 0.3px;">Best Bets Today</div>
+        <div class="predictions-table" style="margin-bottom: 26px;">
+            <table id="bestBetsTable">
+                <thead>
+                    <tr>
+                        <th class="sortable" data-sort="bet_player">Player</th>
+                        <th class="sortable" data-sort="bet_prop">Prop</th>
+                        <th class="sortable" data-sort="bet_line">Line</th>
+                        <th class="sortable" data-sort="bet_probability">Win %</th>
+                        <th class="sortable" data-sort="bet_confidence">Confidence</th>
+                        <th class="sortable" data-sort="bet_projection">Projection</th>
+                        <th class="sortable" data-sort="bet_recent">Recent (10g)</th>
+                        <th class="sortable" data-sort="exit_velo">Exit Velo</th>
+                        <th class="sortable" data-sort="hard_hit">Hard Hit %</th>
+                        <th class="sortable" data-sort="sample">Sample</th>
+                    </tr>
+                </thead>
+                <tbody id="bestBetsBody">
+                    <tr>
+                        <td colspan="10" class="loading">Loading bets...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin: 18px 0 10px; font-weight: 700; letter-spacing: 0.3px;">All Projections</div>
         <div class="predictions-table">
             <table id="predictionsTable">
              <thead>
@@ -299,9 +325,9 @@
         <th class="sortable" data-sort="recommendation">Best Bet</th>
         <th class="sortable" data-sort="confidence">Confidence</th>
         <th class="sortable" data-sort="probability">Win %</th>
-        <th class="sortable" data-sort="predicted_tb">Pred TB</th>
-        <th class="sortable" data-sort="predicted_hits">Pred Hits</th>
-        <th class="sortable" data-sort="predicted_k">Pred K</th>
+        <th class="sortable" data-sort="predicted_tb">TB (O1.5)</th>
+        <th class="sortable" data-sort="predicted_hits">Hits (O0.5)</th>
+        <th class="sortable" data-sort="predicted_k">K (O0.5)</th>
         <th class="sortable" data-sort="recent_tb">Recent TB</th>
         <th class="sortable" data-sort="exit_velo">Exit Velo</th>
         <th class="sortable" data-sort="hard_hit">Hard Hit %</th>
@@ -309,7 +335,7 @@
 </thead>
                 <tbody id="predictionsBody">
                     <tr>
-                        <td colspan="8" class="loading">Loading predictions...</td>
+                        <td colspan="10" class="loading">Loading predictions...</td>
                     </tr>
                 </tbody>
             </table>
@@ -318,6 +344,7 @@
 
     <script>
     let allPredictions = [];
+    let allBestBets = [];
     let currentSort = { column: 'probability', direction: 'desc' };
 
     // Load predictions from JSON
@@ -349,6 +376,28 @@
                 };
             });
 
+            // Flatten all recommended bets into a bet-centric list (for "Best Bets Today")
+            allBestBets = [];
+            for (const p of allPredictions) {
+                const bets = Array.isArray(p.recommended_bets) ? p.recommended_bets : [];
+                for (const b of bets) {
+                    if (!b || b.confidence === 'LOW' || b.prop === 'None') continue;
+                    allBestBets.push({
+                        player_id: p.player_id,
+                        player_name: p.player_name,
+                        sample: p.sample || { games_last_10: 0, pa_last_10: 0 },
+                        prop: b.prop,
+                        line: b.line,
+                        confidence: b.confidence,
+                        probability: typeof b.prob === 'number' ? b.prob : 50,
+                        projection: getProjectionForBet(p, b),
+                        recent: getRecentForProp(p, b),
+                        exit_velo: p.recent_stats?.exit_velo ?? 0,
+                        hard_hit: p.recent_stats?.hard_hit_rate ?? 0
+                    });
+                }
+            }
+
             const highConfCount = allPredictions.filter(p => {
                 const c = (p.confidence || '').toUpperCase();
                 return c === 'HIGH' || c === 'VERY HIGH';
@@ -362,7 +411,25 @@
         } catch (error) {
             document.getElementById('predictionsBody').innerHTML =
                 `<tr><td colspan="10" class="error">Error loading predictions: ${error.message}</td></tr>`;
+            document.getElementById('bestBetsBody').innerHTML =
+                `<tr><td colspan="10" class="error">Error loading bets: ${error.message}</td></tr>`;
         }
+    }
+
+    function getProjectionForBet(player, bet) {
+        if (!player || !bet) return '-';
+        if (bet.prop === 'Total Bases') return (player.total_bases?.predicted ?? 0).toFixed(2) + ' TB';
+        if (bet.prop === 'Hits') return (player.hits?.predicted ?? 0).toFixed(2) + ' H';
+        if (bet.prop === 'Strikeouts') return (player.strikeouts?.predicted ?? 0).toFixed(2) + ' K';
+        return '-';
+    }
+
+    function getRecentForProp(player, bet) {
+        if (!player || !bet) return '-';
+        if (bet.prop === 'Total Bases') return (player.recent_stats?.avg_tb ?? 0).toFixed(2);
+        if (bet.prop === 'Hits') return (player.recent_stats?.avg_hits ?? 0).toFixed(2);
+        if (bet.prop === 'Strikeouts') return (player.recent_stats?.avg_k ?? 0).toFixed(2);
+        return '-';
     }
 
     // Filter and display predictions
@@ -371,7 +438,7 @@
         const betTypeFilter = document.getElementById('betTypeFilter').value;
         const searchTerm = document.getElementById('playerSearch').value.toLowerCase();
 
-        let filtered = allPredictions.filter(pred => {
+        let filteredPlayers = allPredictions.filter(pred => {
             const confidence = (pred.confidence || '').toLowerCase();
             const recommendation = pred.recommendation || '';
 
@@ -394,10 +461,77 @@
             return true;
         });
 
-        // Sort
-        filtered = sortPredictions(filtered);
+        let filteredBets = allBestBets.filter(bet => {
+            const confidence = (bet.confidence || '').toLowerCase();
+            const line = bet.line || '';
 
-        displayPredictions(filtered);
+            if (confidenceFilter === 'very-high' && !confidence.includes('very high')) return false;
+            if (confidenceFilter === 'high' && !confidence.includes('high')) return false;
+            if (confidenceFilter === 'medium' && confidence.includes('low')) return false;
+
+            if (betTypeFilter === 'over' && !line.includes('OVER')) return false;
+            if (betTypeFilter === 'under' && !line.includes('UNDER')) return false;
+
+            if (searchTerm) {
+                const idMatch = bet.player_id.toString().includes(searchTerm);
+                const nameMatch = (bet.player_name || '').toLowerCase().includes(searchTerm);
+                if (!idMatch && !nameMatch) return false;
+            }
+
+            return true;
+        });
+
+        // Sort
+        filteredPlayers = sortPredictions(filteredPlayers);
+        filteredBets = sortBets(filteredBets);
+
+        displayBets(filteredBets);
+        displayPredictions(filteredPlayers);
+    }
+
+    function sortBets(bets) {
+        return bets.sort((a, b) => {
+            let aVal, bVal;
+            switch (currentSort.column) {
+                case 'bet_player':
+                    aVal = (a.player_name || '').toLowerCase();
+                    bVal = (b.player_name || '').toLowerCase();
+                    break;
+                case 'bet_prop':
+                    aVal = a.prop || '';
+                    bVal = b.prop || '';
+                    break;
+                case 'bet_line':
+                    aVal = a.line || '';
+                    bVal = b.line || '';
+                    break;
+                case 'bet_probability':
+                    aVal = a.probability ?? 0;
+                    bVal = b.probability ?? 0;
+                    break;
+                case 'bet_confidence':
+                    aVal = a.confidence || '';
+                    bVal = b.confidence || '';
+                    break;
+                case 'exit_velo':
+                    aVal = a.exit_velo ?? 0;
+                    bVal = b.exit_velo ?? 0;
+                    break;
+                case 'hard_hit':
+                    aVal = a.hard_hit ?? 0;
+                    bVal = b.hard_hit ?? 0;
+                    break;
+                case 'sample':
+                    aVal = (a.sample?.pa_last_10 ?? 0);
+                    bVal = (b.sample?.pa_last_10 ?? 0);
+                    break;
+                default:
+                    aVal = a.probability ?? 0;
+                    bVal = b.probability ?? 0;
+            }
+            if (currentSort.direction === 'asc') return aVal > bVal ? 1 : -1;
+            return aVal < bVal ? 1 : -1;
+        });
     }
 
     // Sort predictions
@@ -450,6 +584,36 @@
         });
     }
 
+    function displayBets(bets) {
+        const tbody = document.getElementById('bestBetsBody');
+        if (!bets.length) {
+            tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding:30px;">No bets match your filters</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = bets.map(b => {
+            const confidenceClass = (b.confidence || 'low').toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '');
+            const betClass = (b.line || '').includes('OVER') ? 'over' : ((b.line || '').includes('UNDER') ? 'under' : '');
+            const playerLabel = b.player_name ? `${b.player_name} (#${b.player_id})` : b.player_id;
+            const sampleLabel = `${b.sample?.games_last_10 ?? 0}g / ${b.sample?.pa_last_10 ?? 0} PA`;
+
+            return `
+                <tr>
+                    <td class="player-name">${playerLabel}</td>
+                    <td>${b.prop}</td>
+                    <td class="recommendation ${betClass}">${b.line}</td>
+                    <td class="probability">${(b.probability ?? 50).toFixed(1)}%</td>
+                    <td><span class="confidence-badge confidence-${confidenceClass}">${b.confidence}</span></td>
+                    <td>${b.projection}</td>
+                    <td>${b.recent}</td>
+                    <td>${(b.exit_velo ?? 0).toFixed(1)} mph</td>
+                    <td>${(b.hard_hit ?? 0).toFixed(1)}%</td>
+                    <td>${sampleLabel}</td>
+                </tr>
+            `;
+        }).join('');
+    }
+
     // Display predictions in table
     function displayPredictions(predictions) {
         const tbody = document.getElementById('predictionsBody');
@@ -477,15 +641,19 @@
                 ? `${pred.player_name} (#${pred.player_id})`
                 : pred.player_id;
 
+            const tbO15 = pred.total_bases?.probabilities?.['over_1.5'];
+            const hitsO05 = pred.hits?.probabilities?.['over_0.5'];
+            const kO05 = pred.strikeouts?.probabilities?.['over_0.5'];
+
             return `
                 <tr>
                     <td class="player-name">${playerLabel}</td>
                     <td class="recommendation ${betClass}">${rec}</td>
                     <td><span class="confidence-badge confidence-${confidenceClass}">${pred.confidence}</span></td>
                     <td class="probability">${probability.toFixed(1)}%</td>
-                    <td>${tbPred.toFixed(2)}</td>
-                    <td>${hitsPred.toFixed(2)}</td>
-                    <td>${kPred.toFixed(2)}</td>
+                    <td>${tbPred.toFixed(2)} <span class="recent-stats">(${tbO15?.toFixed ? tbO15.toFixed(1) : '-'}%)</span></td>
+                    <td>${hitsPred.toFixed(2)} <span class="recent-stats">(${hitsO05?.toFixed ? hitsO05.toFixed(1) : '-'}%)</span></td>
+                    <td>${kPred.toFixed(2)} <span class="recent-stats">(${kO05?.toFixed ? kO05.toFixed(1) : '-'}%)</span></td>
                     <td>${recentTb.toFixed(2)}</td>
                     <td>${exitVelo.toFixed(1)} mph</td>
                     <td>${hardHit.toFixed(1)}%</td>
