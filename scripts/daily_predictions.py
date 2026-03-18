@@ -12,6 +12,11 @@ from scipy.stats import poisson
 import json
 import os
 import subprocess
+import warnings
+
+# Reduce noisy console output (pybaseball uses tqdm for large queries)
+os.environ.setdefault("TQDM_DISABLE", "1")
+warnings.filterwarnings("ignore", category=FutureWarning)
 
 print("="*60)
 print("MLB DAILY PREDICTIONS GENERATOR")
@@ -42,10 +47,10 @@ try:
     with open(FEATURE_INFO_PATH, 'rb') as f:
         feature_info = pickle.load(f)
     feature_cols = feature_info['feature_cols']
-    print(f"✓ Model loaded (trained {feature_info['trained_date']})")
+    print(f"Model loaded (trained {feature_info['trained_date']})")
     print(f"  MAE: {feature_info['test_mae']:.3f} | RMSE: {feature_info['test_rmse']:.3f}")
 except Exception as e:
-    print(f"✗ Error loading model: {e}")
+    print(f"Error loading model: {e}")
     input("Press Enter to exit...")
     exit(1)
 
@@ -60,14 +65,14 @@ end_date = today.strftime('%Y-%m-%d')
 
 try:
     recent_data = statcast(start_dt=start_date, end_dt=end_date)
-    print(f"✓ Downloaded {len(recent_data)} pitches")
+    print(f"Downloaded {len(recent_data)} pitches")
 except Exception as e:
-    print(f"✗ Error: {e}")
+    print(f"Error: {e}")
     input("Press Enter to exit...")
     exit(1)
 
 if len(recent_data) == 0:
-    print("✗ No data available")
+    print("No data available")
     input("Press Enter to exit...")
     exit(1)
 
@@ -148,9 +153,9 @@ latest_batters = latest_batters[
     (latest_batters['rolling_games_10'].fillna(0) >= MIN_GAMES_LAST_10)
     & (latest_batters['rolling_pa_10'].fillna(0) >= MIN_PA_LAST_10)
 ].copy()
-print(f"✓ Sample-size filter: {before_filter} → {len(latest_batters)} batters (min {MIN_GAMES_LAST_10} games, {MIN_PA_LAST_10} PA)")
+print(f"Sample-size filter: {before_filter} -> {len(latest_batters)} batters (min {MIN_GAMES_LAST_10} games, {MIN_PA_LAST_10} PA)")
 
-print(f"✓ Calculated rolling averages for {len(latest_batters)} batters")
+print(f"Calculated rolling averages for {len(latest_batters)} batters")
 
 # Add pitcher stats / matchup features
 print("\nEnriching with pitcher matchup data (if available)...")
@@ -187,14 +192,14 @@ if os.path.exists(TODAY_MATCHUPS_FILE) and os.path.exists(PITCHER_STATS_FILE):
                 if from_stats in latest_batters.columns:
                     latest_batters[col] = latest_batters[from_stats].combine_first(latest_batters[col])
 
-            print("✓ Applied matchup-specific pitcher stats from today_matchups.csv")
+            print("Applied matchup-specific pitcher stats from today_matchups.csv")
         else:
-            print("⚠ today_matchups.csv missing required columns (player_id, opposing_pitcher_id); using league-average pitcher profile.")
+            print("WARNING: today_matchups.csv missing required columns (player_id, opposing_pitcher_id); using league-average pitcher profile.")
     except Exception as e:
-        print(f"⚠ Error applying matchup-specific pitcher data: {e}")
+        print(f"WARNING: Error applying matchup-specific pitcher data: {e}")
         print("  Falling back to league-average pitcher profile.")
 else:
-    print("ℹ No today_matchups.csv or pitcher_season_stats.csv found; using league-average pitcher profile.")
+    print("INFO: No today_matchups.csv or pitcher_season_stats.csv found; using league-average pitcher profile.")
 
 # Matchup differentials (vs either specific pitcher or generic league profile)
 latest_batters['xba_diff'] = latest_batters['rolling_xba_10'] - latest_batters['pitcher_xba']
@@ -210,9 +215,9 @@ try:
                           player_names['name_first'] + ' ' + player_names['name_last']))
     latest_batters['player_name'] = latest_batters['player_id'].map(name_lookup)
     latest_batters['player_name'] = latest_batters['player_name'].fillna('Unknown Player')
-    print(f"✓ Found names for {player_names.shape[0]} players")
+    print(f"Found names for {player_names.shape[0]} players")
 except Exception as e:
-    print(f"⚠ Could not look up names: {e}")
+    print(f"WARNING: Could not look up names: {e}")
     latest_batters['player_name'] = 'Player ' + latest_batters['player_id'].astype(str)
 
 # Generate predictions
@@ -347,7 +352,7 @@ os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
 with open(OUTPUT_FILE, 'w') as f:
     json.dump(output, f, indent=2)
 
-print(f"✓ Saved {len(predictions_list)} predictions")
+print(f"Saved {len(predictions_list)} predictions")
 
 # Display top picks
 print("\n" + "="*60)
@@ -370,9 +375,9 @@ try:
     commit_msg = f"Update predictions - {datetime.now().strftime('%Y-%m-%d %I:%M %p')}"
     subprocess.run(['git', 'commit', '-m', commit_msg], check=True)
     subprocess.run(['git', 'push', 'origin', 'main'], check=True)
-    print("✓ Successfully pushed to GitHub")
+    print("Successfully pushed to GitHub")
 except Exception as e:
-    print(f"⚠ Git push failed: {e}")
+    print(f"WARNING: Git push failed: {e}")
     print("Run manually: git add, git commit, git push")
 
 print("\n" + "="*60)
