@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-18T13:06:09.597815",
+  "generated_at": "2026-03-18T14:45:28.867855",
   "model_version": "2.0",
   "model_performance": {
     "mae": 1.479,
@@ -43,7 +43,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 79.70310997857844,
+          "prob": 79.70310997857845,
           "confidence": "HIGH"
         },
         {
@@ -159,7 +159,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.53672693882261,
+          "prob": 87.5367269388226,
           "confidence": "HIGH"
         },
         {
@@ -434,7 +434,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 77.78751013040183,
+          "prob": 77.78751013040184,
           "confidence": "HIGH"
         },
         {
@@ -654,7 +654,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 83.51886777780277,
+          "prob": 83.51886777780278,
           "confidence": "HIGH"
         }
       ],
@@ -758,7 +758,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 75.96491015823133,
+          "prob": 75.96491015823136,
           "confidence": "HIGH"
         },
         {
@@ -1021,7 +1021,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 77.47584248731084,
+          "prob": 77.47584248731087,
           "confidence": "HIGH"
         },
         {
@@ -1186,7 +1186,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 78.23458188128578,
+          "prob": 78.23458188128576,
           "confidence": "HIGH"
         },
         {
@@ -1296,7 +1296,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 81.39646016743941,
+          "prob": 81.3964601674394,
           "confidence": "HIGH"
         },
         {
@@ -1412,7 +1412,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 76.65022478559611,
+          "prob": 76.6502247855961,
           "confidence": "HIGH"
         },
         {
@@ -1467,7 +1467,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 77.92050165728932,
+          "prob": 77.9205016572893,
           "confidence": "HIGH"
         },
         {
@@ -1577,7 +1577,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 81.26472317028121,
+          "prob": 81.26472317028123,
           "confidence": "HIGH"
         },
         {
@@ -2384,7 +2384,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 80.24584930866543,
+          "prob": 80.24584930866544,
           "confidence": "HIGH"
         }
       ],
@@ -2494,7 +2494,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 80.18778213013749,
+          "prob": 80.18778213013746,
           "confidence": "HIGH"
         },
         {
@@ -2549,7 +2549,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 80.10297830465244,
+          "prob": 80.10297830465245,
           "confidence": "HIGH"
         },
         {
@@ -2604,7 +2604,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 80.09384511911182,
+          "prob": 80.09384511911183,
           "confidence": "HIGH"
         },
         {
@@ -3631,7 +3631,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 76.86659260232882,
+          "prob": 76.8665926023288,
           "confidence": "HIGH"
         },
         {
@@ -3796,7 +3796,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 79.7169894327741,
+          "prob": 79.71698943277413,
           "confidence": "HIGH"
         },
         {
@@ -4016,7 +4016,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 79.51375972253565,
+          "prob": 79.51375972253564,
           "confidence": "HIGH"
         },
         {
@@ -4438,7 +4438,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 79.3992082755374,
+          "prob": 79.39920827553739,
           "confidence": "HIGH"
         }
       ],
@@ -4542,7 +4542,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 79.28446257441442,
+          "prob": 79.28446257441443,
           "confidence": "HIGH"
         },
         {
@@ -4811,7 +4811,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 79.21564210101137,
+          "prob": 79.21564210101138,
           "confidence": "HIGH"
         }
       ],
@@ -4860,7 +4860,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 79.20811465609448,
+          "prob": 79.2081146560945,
           "confidence": "HIGH"
         }
       ],
@@ -5062,7 +5062,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 79.11359942463828,
+          "prob": 79.1135994246383,
           "confidence": "HIGH"
         },
         {
@@ -5380,7 +5380,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 78.97307473948727,
+          "prob": 78.97307473948729,
           "confidence": "HIGH"
         },
         {
@@ -5924,7 +5924,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 78.77876834249507,
+          "prob": 78.77876834249508,
           "confidence": "HIGH"
         },
         {
@@ -6248,7 +6248,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 78.65592450786092,
+          "prob": 78.65592450786093,
           "confidence": "HIGH"
         },
         {
@@ -6303,7 +6303,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 78.64106031105328,
+          "prob": 78.6410603110533,
           "confidence": "HIGH"
         },
         {
@@ -6407,7 +6407,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 78.59720905272279,
+          "prob": 78.59720905272277,
           "confidence": "HIGH"
         },
         {
@@ -6511,7 +6511,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 78.58442082157816,
+          "prob": 78.58442082157815,
           "confidence": "HIGH"
         }
       ],
@@ -7239,7 +7239,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 78.45642681118562,
+          "prob": 78.45642681118564,
           "confidence": "HIGH"
         }
       ],
@@ -7594,7 +7594,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 78.23491750862217,
+          "prob": 78.23491750862219,
           "confidence": "HIGH"
         },
         {
@@ -7759,7 +7759,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 78.20527087969542,
+          "prob": 78.20527087969543,
           "confidence": "HIGH"
         }
       ],
@@ -7967,7 +7967,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 78.19222134543868,
+          "prob": 78.19222134543867,
           "confidence": "HIGH"
         },
         {
@@ -8530,7 +8530,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 78.02117717290396,
+          "prob": 78.02117717290399,
           "confidence": "HIGH"
         }
       ],
@@ -8579,7 +8579,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 78.01680911029302,
+          "prob": 78.01680911029301,
           "confidence": "HIGH"
         }
       ],
@@ -8842,7 +8842,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 77.91887172826921,
+          "prob": 77.91887172826922,
           "confidence": "HIGH"
         }
       ],
@@ -9380,7 +9380,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 77.83164221467558,
+          "prob": 77.8316422146756,
           "confidence": "HIGH"
         }
       ],
@@ -9478,7 +9478,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 77.81757230211122,
+          "prob": 77.81757230211123,
           "confidence": "HIGH"
         }
       ],
@@ -9937,7 +9937,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 77.70670144378026,
+          "prob": 77.7067014437803,
           "confidence": "HIGH"
         }
       ],
@@ -10689,7 +10689,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 77.6246293612536,
+          "prob": 77.62462936125361,
           "confidence": "HIGH"
         },
         {
@@ -11044,7 +11044,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 77.49031623488817,
+          "prob": 77.49031623488818,
           "confidence": "HIGH"
         },
         {
@@ -11307,7 +11307,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 77.4216751152222,
+          "prob": 77.42167511522223,
           "confidence": "HIGH"
         },
         {
@@ -11417,7 +11417,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 77.39519652370903,
+          "prob": 77.395196523709,
           "confidence": "HIGH"
         }
       ],
@@ -11576,7 +11576,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 77.28656597735075,
+          "prob": 77.28656597735076,
           "confidence": "HIGH"
         },
         {
@@ -11790,7 +11790,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 77.22289914015268,
+          "prob": 77.22289914015266,
           "confidence": "HIGH"
         }
       ],
@@ -12053,7 +12053,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 77.14254263285122,
+          "prob": 77.1425426328512,
           "confidence": "HIGH"
         }
       ],
@@ -12561,7 +12561,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 77.0064345826319,
+          "prob": 77.00643458263188,
           "confidence": "HIGH"
         }
       ],
@@ -12659,7 +12659,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 76.96316778685355,
+          "prob": 76.96316778685353,
           "confidence": "HIGH"
         }
       ],
@@ -12818,7 +12818,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 76.8847749872676,
+          "prob": 76.88477498726759,
           "confidence": "HIGH"
         }
       ],
@@ -12965,7 +12965,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 76.83773417123689,
+          "prob": 76.83773417123692,
           "confidence": "HIGH"
         },
         {
@@ -13479,7 +13479,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 76.7220334033847,
+          "prob": 76.72203340338469,
           "confidence": "HIGH"
         }
       ],
@@ -13583,7 +13583,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 76.69167541528094,
+          "prob": 76.69167541528093,
           "confidence": "HIGH"
         }
       ],
@@ -13742,7 +13742,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 76.65478199597312,
+          "prob": 76.65478199597311,
           "confidence": "HIGH"
         }
       ],
@@ -13901,7 +13901,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 76.53720089675129,
+          "prob": 76.53720089675127,
           "confidence": "HIGH"
         }
       ],
@@ -14005,7 +14005,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 76.51202316015727,
+          "prob": 76.51202316015726,
           "confidence": "HIGH"
         },
         {
@@ -14256,7 +14256,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 76.39744178099133,
+          "prob": 76.3974417809913,
           "confidence": "HIGH"
         }
       ],
@@ -14709,7 +14709,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 76.22643326941966,
+          "prob": 76.22643326941967,
           "confidence": "HIGH"
         },
         {
@@ -14880,7 +14880,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 76.17672908626278,
+          "prob": 76.17672908626277,
           "confidence": "HIGH"
         },
         {
@@ -14990,7 +14990,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 76.14292831767402,
+          "prob": 76.14292831767399,
           "confidence": "HIGH"
         }
       ],
@@ -15137,7 +15137,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 76.08462270188193,
+          "prob": 76.08462270188191,
           "confidence": "HIGH"
         }
       ],
@@ -15186,7 +15186,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 76.077189000061,
+          "prob": 76.07718900006103,
           "confidence": "HIGH"
         }
       ],
@@ -15235,7 +15235,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 76.06560104262292,
+          "prob": 76.0656010426229,
           "confidence": "HIGH"
         }
       ],
@@ -15437,7 +15437,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 76.03733035499395,
+          "prob": 76.03733035499394,
           "confidence": "HIGH"
         }
       ],
@@ -15988,7 +15988,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 75.83704598162605,
+          "prob": 75.83704598162606,
           "confidence": "HIGH"
         }
       ],
@@ -16539,7 +16539,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 75.61550466112939,
+          "prob": 75.6155046611294,
           "confidence": "HIGH"
         },
         {
@@ -17041,7 +17041,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 75.45495978562083,
+          "prob": 75.45495978562084,
           "confidence": "HIGH"
         }
       ],
@@ -17090,7 +17090,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 75.39156887198197,
+          "prob": 75.39156887198199,
           "confidence": "HIGH"
         }
       ],
@@ -17237,7 +17237,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 75.35004948031423,
+          "prob": 75.35004948031421,
           "confidence": "HIGH"
         }
       ],
@@ -17457,7 +17457,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 74.95777965031209,
+          "prob": 74.95777965031208,
           "confidence": "HIGH"
         },
         {
@@ -17965,7 +17965,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 75.20576916883648,
+          "prob": 75.20576916883647,
           "confidence": "HIGH"
         }
       ],
@@ -18014,7 +18014,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 75.18386994997869,
+          "prob": 75.18386994997871,
           "confidence": "HIGH"
         }
       ],
@@ -18063,7 +18063,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 75.1642005034175,
+          "prob": 75.16420050341748,
           "confidence": "HIGH"
         },
         {
@@ -18375,7 +18375,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 75.05208334782174,
+          "prob": 75.05208334782176,
           "confidence": "HIGH"
         },
         {
@@ -18675,7 +18675,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 74.8139024093998,
+          "prob": 74.81390240939982,
           "confidence": "HIGH"
         }
       ],
@@ -18724,7 +18724,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 74.78649911773644,
+          "prob": 74.78649911773645,
           "confidence": "HIGH"
         }
       ],
@@ -18773,7 +18773,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 74.76134757627995,
+          "prob": 74.76134757627999,
           "confidence": "HIGH"
         }
       ],
@@ -18822,7 +18822,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 74.73011509106469,
+          "prob": 74.7301150910647,
           "confidence": "HIGH"
         }
       ],
@@ -19171,7 +19171,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 74.25180256710837,
+          "prob": 74.25180256710838,
           "confidence": "HIGH"
         }
       ],
@@ -19220,7 +19220,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 74.1713492003941,
+          "prob": 74.17134920039413,
           "confidence": "HIGH"
         }
       ],
@@ -19612,7 +19612,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 73.77672434698678,
+          "prob": 73.77672434698677,
           "confidence": "HIGH"
         }
       ],
@@ -19661,7 +19661,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 73.70573604139896,
+          "prob": 73.70573604139899,
           "confidence": "HIGH"
         }
       ],
@@ -20010,7 +20010,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 72.44103699945053,
+          "prob": 72.44103699945052,
           "confidence": "HIGH"
         }
       ],
