@@ -1,9 +1,18 @@
 {
-  "generated_at": "2026-03-25T13:38:11.531138",
+  "generated_at": "2026-03-25T13:51:25.852559",
   "model_version": "2.0",
   "model_performance": {
     "mae": 1.479,
     "rmse": 1.906
+  },
+  "edge_thresholds": {
+    "breakeven_approx_pct": 52.4,
+    "margin_pct": 15.0,
+    "tb_over_1.5_min_pct": 67.4,
+    "tb_under_when_over_1.5_at_most_pct": 32.599999999999994,
+    "hits_over_0.5_min_pct": 70.4,
+    "hits_under_when_over_0.5_at_most_pct": 29.599999999999994,
+    "k_over_0.5_min_pct": 72.4
   },
   "lineup_filter": {
     "schedule_date": "2026-03-25",
@@ -220,7 +229,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 88.73754821134675,
+          "prob": 88.73754821134676,
           "confidence": "HIGH"
         },
         {
@@ -289,7 +298,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 73.64028618842732,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -351,7 +360,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 73.64028618842732,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -401,12 +410,6 @@
           "prop": "Total Bases",
           "line": "OVER 1.5",
           "prob": 94.0042029756043,
-          "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 67.03200460356393,
           "confidence": "HIGH"
         }
       ],
@@ -1230,7 +1233,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 91.53569352977672,
+          "prob": 91.53569352977671,
           "confidence": "HIGH"
         }
       ],
@@ -1655,7 +1658,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 77.68698398515703,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -1761,7 +1764,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 82.62260565495549,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -1923,7 +1926,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 86.46647167633873,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -2078,7 +2081,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 90.75770866019981,
+          "prob": 90.7577086601998,
           "confidence": "HIGH"
         }
       ],
@@ -2185,7 +2188,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 73.64028618842732,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -2284,7 +2287,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 90.56819531842115,
+          "prob": 90.56819531842113,
           "confidence": "HIGH"
         }
       ],
@@ -2386,12 +2389,6 @@
           "line": "OVER 1.5",
           "prob": 90.53792787505284,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 71.34952031398099,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -2441,12 +2438,6 @@
           "prop": "Total Bases",
           "line": "OVER 1.5",
           "prob": 90.52942504636283,
-          "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 67.03200460356393,
           "confidence": "HIGH"
         }
       ],
@@ -2504,12 +2495,6 @@
           "line": "UNDER 0.5",
           "prob": 77.88007830714048,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 71.34952031398099,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -2683,7 +2668,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 90.30280321355949,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -2895,12 +2880,6 @@
           "prop": "Total Bases",
           "line": "OVER 1.5",
           "prob": 90.25130582378547,
-          "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 67.03200460356393,
           "confidence": "HIGH"
         }
       ],
@@ -3207,12 +3186,6 @@
           "prop": "Total Bases",
           "line": "OVER 1.5",
           "prob": 90.11460018521629,
-          "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 67.03200460356393,
           "confidence": "HIGH"
         }
       ],
@@ -3770,12 +3743,6 @@
           "line": "OVER 1.5",
           "prob": 89.74559540588656,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 67.03200460356393,
-          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -3824,7 +3791,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 89.74398223935434,
+          "prob": 89.74398223935432,
           "confidence": "HIGH"
         },
         {
@@ -3880,7 +3847,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 89.72500036642663,
+          "prob": 89.72500036642664,
           "confidence": "HIGH"
         }
       ],
@@ -4030,13 +3997,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 89.63913359163351,
-          "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 65.14390575310557,
+          "prob": 89.63913359163352,
           "confidence": "HIGH"
         }
       ],
@@ -4256,12 +4217,6 @@
           "line": "OVER 1.5",
           "prob": 89.53171650241048,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 71.34952031398099,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -4374,12 +4329,6 @@
           "line": "UNDER 0.5",
           "prob": 77.88007830714048,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 71.34952031398099,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -4752,7 +4701,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 89.47025949729843,
+          "prob": 89.47025949729844,
           "confidence": "HIGH"
         },
         {
@@ -4760,12 +4709,6 @@
           "line": "UNDER 0.5",
           "prob": 77.88007830714048,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 71.34952031398099,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -4920,7 +4863,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 89.46569539102799,
+          "prob": 89.465695391028,
           "confidence": "HIGH"
         }
       ],
@@ -4970,7 +4913,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 89.44335084316612,
+          "prob": 89.44335084316613,
           "confidence": "HIGH"
         }
       ],
@@ -5078,12 +5021,6 @@
           "line": "OVER 1.5",
           "prob": 89.42647981320796,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 71.34952031398099,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -5340,12 +5277,6 @@
           "line": "OVER 1.5",
           "prob": 89.34415205186066,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 67.03200460356393,
-          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -5513,7 +5444,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 77.68698398515703,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -5564,12 +5495,6 @@
           "line": "OVER 1.5",
           "prob": 89.30834617454047,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 68.72892787909721,
-          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -5619,12 +5544,6 @@
           "prop": "Total Bases",
           "line": "OVER 1.5",
           "prob": 89.30465022877925,
-          "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 67.03200460356393,
           "confidence": "HIGH"
         }
       ],
@@ -6132,12 +6051,6 @@
           "line": "OVER 1.5",
           "prob": 89.20722888354894,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 67.03200460356393,
-          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -6444,12 +6357,6 @@
           "line": "UNDER 0.5",
           "prob": 81.87307530779819,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 69.88057880877979,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -6498,7 +6405,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 89.06163308574445,
+          "prob": 89.06163308574446,
           "confidence": "HIGH"
         },
         {
@@ -6655,12 +6562,6 @@
           "prop": "Total Bases",
           "line": "OVER 1.5",
           "prob": 89.0291208193871,
-          "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 65.14390575310557,
           "confidence": "HIGH"
         }
       ],
@@ -6924,12 +6825,6 @@
           "line": "OVER 1.5",
           "prob": 88.98796644169487,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 71.34952031398099,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -7459,7 +7354,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 79.81034820053445,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -7609,12 +7504,6 @@
           "prop": "Total Bases",
           "line": "OVER 1.5",
           "prob": 88.86871795281996,
-          "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 67.03200460356393,
           "confidence": "HIGH"
         }
       ],
@@ -8077,7 +7966,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 73.64028618842732,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -8176,7 +8065,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 88.77239316927182,
+          "prob": 88.77239316927184,
           "confidence": "HIGH"
         }
       ],
@@ -8484,18 +8373,6 @@
           "line": "OVER 1.5",
           "prob": 88.68831705503356,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 67.03200460356393,
-          "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 69.88057880877979,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -8714,12 +8591,6 @@
           "line": "OVER 1.5",
           "prob": 88.62835955005566,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 68.85967760854024,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -8831,7 +8702,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 77.68698398515703,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -8881,12 +8752,6 @@
           "prop": "Total Bases",
           "line": "OVER 1.5",
           "prob": 88.60832995086605,
-          "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 67.03200460356393,
           "confidence": "HIGH"
         }
       ],
@@ -8938,12 +8803,6 @@
           "line": "OVER 1.5",
           "prob": 88.60583063325656,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 68.85967760854024,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -9055,7 +8914,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 77.68698398515703,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -9111,7 +8970,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 73.64028618842732,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -9223,7 +9082,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 86.46647167633873,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -9272,7 +9131,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 88.49201378708604,
+          "prob": 88.49201378708605,
           "confidence": "HIGH"
         }
       ],
@@ -9378,7 +9237,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 88.48549972403958,
+          "prob": 88.48549972403957,
           "confidence": "HIGH"
         }
       ],
@@ -9428,7 +9287,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 88.48202047997052,
+          "prob": 88.4820204799705,
           "confidence": "HIGH"
         }
       ],
@@ -9480,12 +9339,6 @@
           "line": "OVER 1.5",
           "prob": 88.46031308468467,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 67.03200460356393,
-          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -9535,12 +9388,6 @@
           "prop": "Total Bases",
           "line": "OVER 1.5",
           "prob": 88.44245394196561,
-          "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 67.03200460356393,
           "confidence": "HIGH"
         }
       ],
@@ -9640,13 +9487,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 88.43095255682789,
-          "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 67.03200460356393,
+          "prob": 88.4309525568279,
           "confidence": "HIGH"
         }
       ],
@@ -9996,7 +9837,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 88.36044893610345,
+          "prob": 88.36044893610344,
           "confidence": "HIGH"
         }
       ],
@@ -10046,7 +9887,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 88.35295046852188,
+          "prob": 88.3529504685219,
           "confidence": "HIGH"
         }
       ],
@@ -10358,14 +10199,14 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 88.33529712166674,
+          "prob": 88.33529712166673,
           "confidence": "HIGH"
         },
         {
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 81.11243971624381,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -10626,13 +10467,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 88.22827313111176,
-          "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 68.72892787909721,
+          "prob": 88.22827313111175,
           "confidence": "HIGH"
         }
       ],
@@ -10684,12 +10519,6 @@
           "line": "OVER 1.5",
           "prob": 88.22383568518426,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 69.88057880877979,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -10738,7 +10567,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 88.19706331917557,
+          "prob": 88.19706331917558,
           "confidence": "HIGH"
         }
       ],
@@ -10946,12 +10775,6 @@
           "line": "OVER 1.5",
           "prob": 88.1752879748977,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 71.34952031398099,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -11150,7 +10973,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 88.12720867087134,
+          "prob": 88.12720867087133,
           "confidence": "HIGH"
         }
       ],
@@ -11464,12 +11287,6 @@
           "line": "OVER 1.5",
           "prob": 88.04546387016732,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 67.03200460356393,
-          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -11520,12 +11337,6 @@
           "line": "OVER 1.5",
           "prob": 88.04414457633555,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 71.34952031398099,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -11837,7 +11648,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 75.34030360583935,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -12043,7 +11854,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 77.68698398515703,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -12423,7 +12234,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 75.34030360583935,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -12472,7 +12283,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.87410127166378,
+          "prob": 87.87410127166379,
           "confidence": "HIGH"
         }
       ],
@@ -12630,12 +12441,6 @@
           "line": "UNDER 0.5",
           "prob": 77.88007830714048,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 71.34952031398099,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -12797,7 +12602,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 73.64028618842732,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -12896,7 +12701,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.80131967912494,
+          "prob": 87.80131967912496,
           "confidence": "HIGH"
         }
       ],
@@ -12996,7 +12801,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.7876430622686,
+          "prob": 87.78764306226857,
           "confidence": "HIGH"
         }
       ],
@@ -13054,12 +12859,6 @@
           "line": "UNDER 0.5",
           "prob": 71.65313105737891,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 68.85967760854024,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -13164,7 +12963,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.75180025788225,
+          "prob": 87.75180025788227,
           "confidence": "HIGH"
         },
         {
@@ -13220,7 +13019,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.71959004026428,
+          "prob": 87.7195900402643,
           "confidence": "HIGH"
         }
       ],
@@ -13476,7 +13275,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.70657487406186,
+          "prob": 87.70657487406184,
           "confidence": "HIGH"
         }
       ],
@@ -13576,7 +13375,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.67975018721408,
+          "prob": 87.67975018721407,
           "confidence": "HIGH"
         }
       ],
@@ -13633,7 +13432,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 79.81034820053445,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -13832,7 +13631,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.65646982779798,
+          "prob": 87.65646982779799,
           "confidence": "HIGH"
         }
       ],
@@ -13940,12 +13739,6 @@
           "line": "OVER 0.5",
           "prob": 71.34952031398099,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 71.34952031398099,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -14044,7 +13837,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.6226910913251,
+          "prob": 87.62269109132508,
           "confidence": "HIGH"
         }
       ],
@@ -14462,7 +14255,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.54156028655184,
+          "prob": 87.54156028655186,
           "confidence": "HIGH"
         }
       ],
@@ -14525,7 +14318,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 86.46647167633873,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -14686,7 +14479,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.42271778679212,
+          "prob": 87.4227177867921,
           "confidence": "HIGH"
         }
       ],
@@ -14836,7 +14629,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.39194535274885,
+          "prob": 87.39194535274883,
           "confidence": "HIGH"
         },
         {
@@ -14992,7 +14785,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.36765259415374,
+          "prob": 87.36765259415372,
           "confidence": "HIGH"
         }
       ],
@@ -15043,12 +14836,6 @@
           "prop": "Total Bases",
           "line": "OVER 1.5",
           "prob": 87.36178154340249,
-          "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 67.03200460356393,
           "confidence": "HIGH"
         }
       ],
@@ -15212,12 +14999,6 @@
           "line": "OVER 0.5",
           "prob": 77.68698398515703,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 71.34952031398099,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -15329,7 +15110,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 86.46647167633873,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -15486,12 +15267,6 @@
           "line": "OVER 1.5",
           "prob": 87.28350887940827,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 69.88057880877979,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -15646,7 +15421,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.1813917009814,
+          "prob": 87.18139170098141,
           "confidence": "HIGH"
         },
         {
@@ -15752,7 +15527,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.1635419956923,
+          "prob": 87.16354199569228,
           "confidence": "HIGH"
         }
       ],
@@ -15809,7 +15584,7 @@
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 86.46647167633873,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -15914,7 +15689,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.11472776248395,
+          "prob": 87.11472776248394,
           "confidence": "HIGH"
         }
       ],
@@ -15964,7 +15739,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.11368253956745,
+          "prob": 87.11368253956744,
           "confidence": "HIGH"
         }
       ],
@@ -16016,12 +15791,6 @@
           "line": "OVER 1.5",
           "prob": 87.1047251443386,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 68.85967760854024,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -16322,12 +16091,6 @@
           "line": "OVER 1.5",
           "prob": 87.0542223008123,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 67.03200460356393,
-          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -16576,7 +16339,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 87.00278915560787,
+          "prob": 87.00278915560786,
           "confidence": "HIGH"
         }
       ],
@@ -16984,12 +16747,6 @@
           "line": "OVER 1.5",
           "prob": 86.89975832775112,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 71.34952031398099,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -17094,7 +16851,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 86.8178691865731,
+          "prob": 86.81786918657312,
           "confidence": "HIGH"
         },
         {
@@ -17200,14 +16957,8 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 86.79121546516129,
+          "prob": 86.79121546516126,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 68.85967760854024,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -17464,12 +17215,6 @@
           "line": "OVER 1.5",
           "prob": 86.74559753965043,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 71.34952031398099,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
@@ -17518,14 +17263,14 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 86.73499243306698,
+          "prob": 86.73499243306696,
           "confidence": "HIGH"
         },
         {
           "prop": "Strikeouts",
           "line": "OVER 0.5",
           "prob": 75.34030360583935,
-          "confidence": "MEDIUM"
+          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -17730,7 +17475,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 86.66485051249037,
+          "prob": 86.66485051249036,
           "confidence": "HIGH"
         },
         {
@@ -18200,12 +17945,6 @@
           "line": "OVER 1.5",
           "prob": 86.36089420845565,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 65.14390575310557,
-          "confidence": "HIGH"
         }
       ],
       "recent_stats": {
@@ -18305,12 +18044,6 @@
           "prop": "Total Bases",
           "line": "OVER 1.5",
           "prob": 86.25902805071,
-          "confidence": "HIGH"
-        },
-        {
-          "prop": "Hits",
-          "line": "UNDER 0.5",
-          "prob": 67.03200460356393,
           "confidence": "HIGH"
         }
       ],
@@ -18722,7 +18455,7 @@
         {
           "prop": "Total Bases",
           "line": "OVER 1.5",
-          "prob": 85.61731489063193,
+          "prob": 85.61731489063195,
           "confidence": "HIGH"
         }
       ],
@@ -18774,12 +18507,6 @@
           "line": "OVER 1.5",
           "prob": 85.5988558171512,
           "confidence": "HIGH"
-        },
-        {
-          "prop": "Strikeouts",
-          "line": "OVER 0.5",
-          "prob": 68.85967760854024,
-          "confidence": "MEDIUM"
         }
       ],
       "recent_stats": {
