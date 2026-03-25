@@ -12,11 +12,17 @@ from scipy.stats import poisson
 import json
 import os
 import subprocess
+import sys
 import warnings
 
 # Reduce noisy console output (pybaseball uses tqdm for large queries)
 os.environ.setdefault("TQDM_DISABLE", "1")
 warnings.filterwarnings("ignore", category=FutureWarning)
+
+_SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
+if _SCRIPTS_DIR not in sys.path:
+    sys.path.insert(0, _SCRIPTS_DIR)
+from starters_from_statsapi import fetch_starters_for_date
 
 print("="*60)
 print("MLB DAILY PREDICTIONS GENERATOR")
@@ -28,9 +34,19 @@ GITHUB_REPO_PATH = r'C:\Users\bruce\Github\SportsEdgeBet'
 MODEL_PATH = os.path.join(GITHUB_REPO_PATH, 'models', 'mlb_tb_model.pkl')
 FEATURE_INFO_PATH = os.path.join(GITHUB_REPO_PATH, 'models', 'feature_info.pkl')
 OUTPUT_FILE = os.path.join(GITHUB_REPO_PATH, 'data', 'predictions.json')
+TODAY_STARTERS_CSV = os.path.join(GITHUB_REPO_PATH, 'data', 'today_starters.csv')
+PREDICTIONS_TODAY_CSV = os.path.join(GITHUB_REPO_PATH, 'data', 'predictions_today.csv')
+PREDICTIONS_LIVE_LINEUPS_CSV = os.path.join(GITHUB_REPO_PATH, 'data', 'predictions_live_lineups.csv')
 # Optional matchup inputs
 PITCHER_STATS_FILE = os.path.join(GITHUB_REPO_PATH, 'models', 'pitcher_season_stats.csv')
 TODAY_MATCHUPS_FILE = os.path.join(GITHUB_REPO_PATH, 'data', 'today_matchups.csv')
+
+# Calendar date for Statcast window end + StatsAPI schedule (YYYY-MM-DD).
+# Override for backtests: set env MLB_PREDICT_DATE=2025-09-28
+RUN_DATE_STR = os.environ.get('MLB_PREDICT_DATE', datetime.now().strftime('%Y-%m-%d'))
+today = datetime.strptime(RUN_DATE_STR, '%Y-%m-%d')
+# Set MLB_SKIP_LINEUP_FILTER=1 to publish all players (ignore starters join)
+SKIP_LINEUP_FILTER = os.environ.get('MLB_SKIP_LINEUP_FILTER', '').lower() in ('1', 'true', 'yes')
 
 # Data-quality + display guardrails
 # These prevent "fake" 0.0 projections turning into 0% / 100% win rates.
@@ -55,11 +71,10 @@ except Exception as e:
     exit(1)
 
 # Get recent data
-today = datetime(2025, 9, 28)  # Testing with 2025 data
 lookback_days = 15
 
 print(f"\nDownloading recent batter data (last {lookback_days} days)...")
-print(f"  (Using 2025 season data for testing)")
+print(f"  Statcast window ends on {RUN_DATE_STR}")
 start_date = (today - timedelta(days=lookback_days)).strftime('%Y-%m-%d')
 end_date = today.strftime('%Y-%m-%d')
 
@@ -334,6 +349,126 @@ for _, row in latest_batters.iterrows():
 # Sort by best probabilities
 predictions_list = sorted(predictions_list, key=lambda x: max([b['prob'] for b in x['recommended_bets']]), reverse=True)
 
+predictions_count_all = len(predictions_list)
+
+
+def attach_matchups_from_starters(pred_list, sdf):
+    """Add matchup dict from starters_df (StatsAPI boxscore)."""
+    if sdf is None or len(sdf) == 0:
+        for p in pred_list:
+            p['matchup'] = None
+        return
+    one = sdf.sort_values(['player_id', 'game_id']).drop_duplicates('player_id', keep='first')
+    by_pid = one.set_index('player_id')
+    for p in pred_list:
+        pid = int(p['player_id'])
+        if pid not in by_pid.index:
+            p['matchup'] = None
+            continue
+        r = by_pid.loc[pid]
+        if isinstance(r, pd.DataFrame):
+            r = r.iloc[0]
+        p['matchup'] = {
+            'game_id': int(r['game_id']),
+            'team': str(r['team_name']),
+            'opponent': str(r['opponent_team']),
+            'label': str(r['matchup']),
+            'away_team': str(r['away_team']),
+            'home_team': str(r['home_team']),
+            'side': str(r['side']),
+            'batting_order': int(r['batting_order']),
+        }
+
+
+def build_games_list(sdf):
+    if sdf is None or len(sdf) == 0:
+        return []
+    g = sdf.drop_duplicates(subset=['game_id'], keep='first')
+    out = []
+    for _, row in g.iterrows():
+        out.append({
+            'game_id': int(row['game_id']),
+            'matchup': str(row['matchup']),
+            'away_team': str(row['away_team']),
+            'home_team': str(row['home_team']),
+        })
+    out.sort(key=lambda x: x['matchup'])
+    return out
+
+
+def _predictions_to_df(pred_list):
+    rows = []
+    for p in pred_list:
+        m = p.get('matchup') or {}
+        rows.append({
+            'player_id': p['player_id'],
+            'player_name': p.get('player_name', ''),
+            'game_id': m.get('game_id'),
+            'team': m.get('team'),
+            'opponent': m.get('opponent'),
+            'matchup': m.get('label'),
+            'pred_tb': p.get('total_bases', {}).get('predicted'),
+            'pred_hits': p.get('hits', {}).get('predicted'),
+            'pred_k': p.get('strikeouts', {}).get('predicted'),
+            'tb_o15': p.get('total_bases', {}).get('probabilities', {}).get('over_1.5'),
+            'hits_o05': p.get('hits', {}).get('probabilities', {}).get('over_0.5'),
+            'k_o05': p.get('strikeouts', {}).get('probabilities', {}).get('over_0.5'),
+            'games_last_10': p.get('sample', {}).get('games_last_10'),
+            'pa_last_10': p.get('sample', {}).get('pa_last_10'),
+        })
+    return pd.DataFrame(rows)
+
+
+lineup_meta = {
+    'schedule_date': RUN_DATE_STR,
+    'filter_applied': False,
+    'starters_rows': 0,
+    'predictions_before': predictions_count_all,
+    'predictions_after': predictions_count_all,
+    'note': None,
+}
+
+starters_df = pd.DataFrame()
+schedule_games_count = 0
+if not SKIP_LINEUP_FILTER:
+    try:
+        print(f"\nFetching starting lineups via StatsAPI for {RUN_DATE_STR}...")
+        starters_df, schedule_games_count = fetch_starters_for_date(RUN_DATE_STR, sport_id=1)
+        os.makedirs(os.path.dirname(TODAY_STARTERS_CSV), exist_ok=True)
+        starters_df.to_csv(TODAY_STARTERS_CSV, index=False)
+        lineup_meta['starters_rows'] = int(len(starters_df))
+        print(f"Saved {len(starters_df)} starter rows to data/today_starters.csv")
+    except ImportError:
+        lineup_meta['note'] = 'MLB-StatsAPI not installed; install with: pip install MLB-StatsAPI'
+        print("WARNING: " + lineup_meta['note'])
+    except Exception as e:
+        lineup_meta['note'] = f'StatsAPI lineup fetch failed: {e}'
+        print("WARNING: " + lineup_meta['note'])
+
+attach_matchups_from_starters(predictions_list, starters_df)
+_predictions_to_df(predictions_list).to_csv(PREDICTIONS_TODAY_CSV, index=False)
+
+if not SKIP_LINEUP_FILTER and len(starters_df) > 0:
+    starter_ids = set(int(x) for x in starters_df['player_id'].tolist())
+    predictions_filtered = [p for p in predictions_list if int(p['player_id']) in starter_ids]
+    lineup_meta['filter_applied'] = True
+    lineup_meta['predictions_after'] = len(predictions_filtered)
+    predictions_list = predictions_filtered
+    print(f"Lineup filter: {lineup_meta['predictions_before']} -> {lineup_meta['predictions_after']} players (starters only)")
+elif not SKIP_LINEUP_FILTER and len(starters_df) == 0:
+    if schedule_games_count > 0:
+        extra = 'scheduled games but no boxscore starters parsed — publishing unfiltered predictions'
+        lineup_meta['note'] = extra if not lineup_meta.get('note') else f"{lineup_meta['note']}; {extra}"
+        print("WARNING: Games on schedule but no starters in boxscore; publishing all predictions (no lineup filter).")
+    else:
+        extra = 'no games on slate — publishing unfiltered predictions'
+        lineup_meta['note'] = extra if not lineup_meta.get('note') else f"{lineup_meta['note']}; {extra}"
+        print("INFO: No games on slate or no starters file; publishing all predictions.")
+
+_predictions_to_df(predictions_list).to_csv(PREDICTIONS_LIVE_LINEUPS_CSV, index=False)
+
+games_on_slate = build_games_list(starters_df)
+
 # Create output
 output = {
     "generated_at": datetime.now().isoformat(),
@@ -342,6 +477,8 @@ output = {
         "mae": round(float(feature_info['test_mae']), 3),
         "rmse": round(float(feature_info['test_rmse']), 3)
     },
+    "lineup_filter": lineup_meta,
+    "games": games_on_slate,
     "total_players": len(predictions_list),
     "all_predictions": predictions_list
 }
@@ -371,7 +508,12 @@ print("="*60)
 
 try:
     os.chdir(GITHUB_REPO_PATH)
-    subprocess.run(['git', 'add', 'data/predictions.json'], check=True)
+    git_paths = ['data/predictions.json']
+    for name in ('today_starters.csv', 'predictions_today.csv', 'predictions_live_lineups.csv'):
+        rel = os.path.join('data', name)
+        if os.path.isfile(os.path.join(GITHUB_REPO_PATH, rel.replace('/', os.sep))):
+            git_paths.append(rel.replace('/', os.sep))
+    subprocess.run(['git', 'add'] + git_paths, check=True)
     commit_msg = f"Update predictions - {datetime.now().strftime('%Y-%m-%d %I:%M %p')}"
     subprocess.run(['git', 'commit', '-m', commit_msg], check=True)
     subprocess.run(['git', 'push', 'origin', 'main'], check=True)

@@ -3,370 +3,346 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MLB Prop Predictions - SportsEdgeBet</title>
+    <title>MLB Prop Edges — SportsEdgeBet</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: #ffffff;
-            padding: 20px;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
             min-height: 100vh;
+            line-height: 1.45;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 24px 18px 48px; }
 
         header {
-            text-align: center;
-            padding: 30px 0;
-            border-bottom: 2px solid rgba(255,255,255,0.2);
-            margin-bottom: 30px;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .subtitle {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        .model-info {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .stat-box {
-            text-align: center;
-        }
-
-        .stat-box .label {
-            font-size: 0.9em;
-            opacity: 0.8;
-            margin-bottom: 5px;
-        }
-
-        .stat-box .value {
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-
-        .filters {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 10px;
             margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.25);
         }
 
-        .filter-group {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            align-items: center;
+        header h1 {
+            font-size: 1.55rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #f8fafc;
         }
 
-        .filter-group label {
-            font-weight: bold;
+        header .subtitle { font-size: 0.9rem; color: #94a3b8; margin-top: 4px; }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 10px;
+            margin-bottom: 18px;
         }
 
-        select, input {
-            padding: 8px 12px;
-            border-radius: 5px;
-            border: none;
-            font-size: 1em;
-            background: rgba(255,255,255,0.9);
-            color: #333;
-        }
-
-        .predictions-table {
-            background: rgba(255,255,255,0.95);
+        .metric {
+            background: rgba(30, 41, 59, 0.85);
+            border: 1px solid rgba(148, 163, 184, 0.15);
             border-radius: 10px;
+            padding: 12px 14px;
+        }
+
+        .metric .label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: #94a3b8; }
+        .metric .value { font-size: 1.15rem; font-weight: 700; color: #f1f5f9; margin-top: 4px; }
+
+        .panel {
+            background: #f8fafc;
+            color: #0f172a;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 18px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            color: #333;
-        }
-
-        thead {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        th {
-            padding: 15px;
-            text-align: left;
+        .panel-head {
+            padding: 14px 16px;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            font-size: 0.95rem;
             font-weight: 600;
+        }
+
+        .controls {
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: #fff;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .control-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .field { display: flex; flex-direction: column; gap: 4px; min-width: 160px; flex: 1 1 180px; }
+        .field label { font-size: 0.75rem; font-weight: 600; color: #475569; text-transform: uppercase; letter-spacing: 0.04em; }
+
+        select, input[type="text"] {
+            padding: 9px 11px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            font-size: 0.9rem;
+            color: #0f172a;
+            background: #fff;
+        }
+
+        select:focus, input:focus { outline: 2px solid #6366f1; outline-offset: 1px; }
+
+        #gameFilter { font-weight: 600; }
+
+        .matchup-banner {
+            display: none;
+            margin: 0 16px 12px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: #eef2ff;
+            border: 1px solid #c7d2fe;
+            color: #312e81;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+
+        .matchup-banner.visible { display: block; }
+
+        table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+        thead th {
+            text-align: left;
+            padding: 10px 12px;
+            background: #f1f5f9;
+            color: #334155;
+            font-weight: 600;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid #e2e8f0;
             cursor: pointer;
             user-select: none;
-            position: relative;
+            white-space: nowrap;
         }
 
-        th:hover {
-            background: rgba(0,0,0,0.1);
+        thead th.sortable::after { content: ' \2195'; opacity: 0.35; font-size: 0.65rem; }
+        thead th.sorted-asc::after { content: ' \2191'; opacity: 1; }
+        thead th.sorted-desc::after { content: ' \2193'; opacity: 1; }
+
+        tbody td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: top;
         }
 
-        th.sortable::after {
-            content: ' ⇅';
-            opacity: 0.5;
-        }
+        tbody tr:hover { background: #f8fafc; }
 
-        th.sorted-asc::after {
-            content: ' ↑';
-            opacity: 1;
-        }
+        .player-cell .name { font-weight: 600; color: #1e3a8a; }
+        .player-cell .meta { font-size: 0.78rem; color: #64748b; margin-top: 2px; }
 
-        th.sorted-desc::after {
-            content: ' ↓';
-            opacity: 1;
-        }
+        .pick { font-weight: 600; color: #0f172a; }
+        .pick.over { color: #15803d; }
+        .pick.under { color: #b91c1c; }
 
-        td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #e0e0e0;
-        }
+        .prob { font-weight: 700; color: #4f46e5; }
 
-        tbody tr:hover {
-            background: #f5f5f5;
-        }
-
-        .confidence-badge {
+        .badge {
             display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 999px;
+            font-size: 0.68rem;
+            font-weight: 700;
             text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
 
-        .confidence-very-high {
-            background: #22c55e;
-            color: white;
-        }
+        .badge-high { background: #dbeafe; color: #1d4ed8; }
+        .badge-medium { background: #ffedd5; color: #c2410c; }
+        .badge-low { background: #e2e8f0; color: #475569; }
 
-        .confidence-high {
-            background: #3b82f6;
-            color: white;
-        }
+        .muted { font-size: 0.78rem; color: #64748b; }
 
-        .confidence-medium {
-            background: #f59e0b;
-            color: white;
-        }
+        .loading, .empty { text-align: center; padding: 28px 16px; color: #64748b; }
+        .error { background: #fef2f2; color: #991b1b; padding: 14px; margin: 12px 16px; border-radius: 8px; font-size: 0.9rem; }
 
-        .confidence-low {
-            background: #6b7280;
-            color: white;
-        }
+        .col-matchup { max-width: 200px; }
 
-        .recommendation {
-            font-weight: bold;
-        }
-
-        .recommendation.over {
-            color: #22c55e;
-        }
-
-        .recommendation.under {
-            color: #ef4444;
-        }
-
-        .probability {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 50px;
-            font-size: 1.2em;
-        }
-
-        .error {
-            background: #ef4444;
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 1.8em;
-            }
-
-            .predictions-table {
-                overflow-x: auto;
-            }
-
-            table {
-                font-size: 0.9em;
-            }
-
-            th, td {
-                padding: 8px 10px;
-            }
-        }
-
-        .player-name {
-            font-weight: 600;
-            color: #1e40af;
-        }
-
-        .recent-stats {
-            font-size: 0.85em;
-            color: #6b7280;
+        @media (max-width: 720px) {
+            .container { padding: 16px 12px 40px; }
+            table { font-size: 0.8rem; }
+            thead th, tbody td { padding: 8px 8px; }
+            .hide-narrow { display: none; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🏆 MLB Prop Predictions</h1>
-            <p class="subtitle">AI-Powered TB / Hits / Strikeouts betting edge</p>
+            <h1>MLB prop edges</h1>
+            <p class="subtitle">Total bases, hits, and strikeouts — filtered by matchup</p>
         </header>
 
-        <div class="model-info" id="modelInfo">
-            <div class="stat-box">
-                <div class="label">Model Accuracy (MAE)</div>
-                <div class="value" id="mae">-</div>
+        <div class="metrics" id="modelInfo">
+            <div class="metric">
+                <div class="label">Model MAE</div>
+                <div class="value" id="mae">—</div>
             </div>
-            <div class="stat-box">
-                <div class="label">Total Players</div>
-                <div class="value" id="totalPlayers">-</div>
+            <div class="metric">
+                <div class="label">Players (this view)</div>
+                <div class="value" id="totalPlayers">—</div>
             </div>
-            <div class="stat-box">
-                <div class="label">High Confidence Picks</div>
-                <div class="value" id="highConfidence">-</div>
+            <div class="metric">
+                <div class="label">High-confidence rows</div>
+                <div class="value" id="highConfidence">—</div>
             </div>
-            <div class="stat-box">
-                <div class="label">Last Updated</div>
-                <div class="value" id="lastUpdated">-</div>
-            </div>
-        </div>
-
-        <div class="filters">
-            <div class="filter-group">
-                <label>Filter by Confidence:</label>
-                <select id="confidenceFilter">
-                    <option value="all">All Picks</option>
-                    <option value="high" selected>High Confidence Only</option>
-                    <option value="very-high">Very High Only</option>
-                    <option value="medium">Medium+</option>
-                </select>
-
-                <label>Bet Type:</label>
-                <select id="betTypeFilter">
-                    <option value="all">All</option>
-                    <option value="over">OVER Only</option>
-                    <option value="under">UNDER Only</option>
-                </select>
-
-                <label>Search Player:</label>
-                <input type="text" id="playerSearch" placeholder="Player ID or name...">
+            <div class="metric">
+                <div class="label">Updated</div>
+                <div class="value" id="lastUpdated">—</div>
             </div>
         </div>
 
-        <div style="margin: 18px 0 10px; font-weight: 700; letter-spacing: 0.3px;">Best Bets Today</div>
-        <div class="predictions-table" style="margin-bottom: 26px;">
-            <table id="bestBetsTable">
-                <thead>
-                    <tr>
-                        <th class="sortable" data-sort="bet_player">Player</th>
-                        <th class="sortable" data-sort="bet_prop">Prop</th>
-                        <th class="sortable" data-sort="bet_line">Line</th>
-                        <th class="sortable" data-sort="bet_probability">Win %</th>
-                        <th class="sortable" data-sort="bet_confidence">Confidence</th>
-                        <th class="sortable" data-sort="bet_projection">Projection</th>
-                        <th class="sortable" data-sort="bet_recent">Recent (10g)</th>
-                        <th class="sortable" data-sort="exit_velo">Exit Velo</th>
-                        <th class="sortable" data-sort="hard_hit">Hard Hit %</th>
-                        <th class="sortable" data-sort="sample">Sample</th>
-                    </tr>
-                </thead>
-                <tbody id="bestBetsBody">
-                    <tr>
-                        <td colspan="10" class="loading">Loading bets...</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <div class="panel">
+            <div class="panel-head">Pick a game</div>
+            <div class="controls">
+                <div class="control-row">
+                    <div class="field" style="flex: 2 1 280px;">
+                        <label for="gameFilter">Game</label>
+                        <select id="gameFilter">
+                            <option value="all">All games (full slate)</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="confidenceFilter">Confidence</label>
+                        <select id="confidenceFilter">
+                            <option value="all">All</option>
+                            <option value="high" selected>High+</option>
+                            <option value="very-high">Very high</option>
+                            <option value="medium">Medium+</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="betTypeFilter">Side</label>
+                        <select id="betTypeFilter">
+                            <option value="all">Over &amp; under</option>
+                            <option value="over">Over only</option>
+                            <option value="under">Under only</option>
+                        </select>
+                    </div>
+                    <div class="field" style="flex: 2 1 220px;">
+                        <label for="playerSearch">Search</label>
+                        <input type="text" id="playerSearch" placeholder="Player name…" autocomplete="off">
+                    </div>
+                </div>
+                <div id="matchupBanner" class="matchup-banner" role="status"></div>
+            </div>
 
-        <div style="margin: 18px 0 10px; font-weight: 700; letter-spacing: 0.3px;">All Projections</div>
-        <div class="predictions-table">
-            <table id="predictionsTable">
-             <thead>
-    <tr>
-        <th class="sortable" data-sort="player_id">Player</th>
-        <th class="sortable" data-sort="recommendation">Best Bet</th>
-        <th class="sortable" data-sort="confidence">Confidence</th>
-        <th class="sortable" data-sort="probability">Win %</th>
-        <th class="sortable" data-sort="predicted_tb">TB (O1.5)</th>
-        <th class="sortable" data-sort="predicted_hits">Hits (O0.5)</th>
-        <th class="sortable" data-sort="predicted_k">K (O0.5)</th>
-        <th class="sortable" data-sort="recent_tb">Recent TB</th>
-        <th class="sortable" data-sort="exit_velo">Exit Velo</th>
-        <th class="sortable" data-sort="hard_hit">Hard Hit %</th>
-    </tr>
-</thead>
-                <tbody id="predictionsBody">
-                    <tr>
-                        <td colspan="10" class="loading">Loading predictions...</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="panel-head">Best edges (this view)</div>
+            <div style="overflow-x: auto;">
+                <table id="bestBetsTable">
+                    <thead>
+                        <tr>
+                            <th class="sortable col-matchup" data-sort="bet_matchup" id="thBetMatchup">Matchup</th>
+                            <th class="sortable" data-sort="bet_player">Player</th>
+                            <th class="sortable hide-narrow" data-sort="bet_opp">Opponent</th>
+                            <th class="sortable" data-sort="bet_line">Pick</th>
+                            <th class="sortable" data-sort="bet_probability">Win %</th>
+                            <th class="sortable" data-sort="bet_confidence">Tier</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bestBetsBody">
+                        <tr><td colspan="6" class="loading">Loading…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel-head">Projections (this view)</div>
+            <div style="overflow-x: auto;">
+                <table id="predictionsTable">
+                    <thead>
+                        <tr>
+                            <th class="sortable col-matchup" data-sort="matchup" id="thPredMatchup">Matchup</th>
+                            <th class="sortable" data-sort="player_id">Player</th>
+                            <th class="sortable hide-narrow" data-sort="opponent">vs</th>
+                            <th class="sortable" data-sort="probability">Top edge</th>
+                            <th class="sortable hide-narrow" data-sort="predicted_tb">TB</th>
+                            <th class="sortable hide-narrow" data-sort="predicted_hits">H</th>
+                            <th class="sortable hide-narrow" data-sort="predicted_k">K</th>
+                        </tr>
+                    </thead>
+                    <tbody id="predictionsBody">
+                        <tr><td colspan="7" class="loading">Loading…</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
     <script>
     let allPredictions = [];
     let allBestBets = [];
-    let currentSort = { column: 'probability', direction: 'desc' };
+    let gamesOnSlate = [];
+    let totalPlayersInFile = 0;
+    let sortBetsState = { column: 'bet_probability', direction: 'desc' };
+    let sortPredState = { column: 'probability', direction: 'desc' };
 
-    // Load predictions from JSON
+    function escapeHtml(s) {
+        if (s == null || s === undefined) return '';
+        return String(s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function badgeClass(conf) {
+        const c = (conf || '').toUpperCase();
+        if (c.includes('HIGH')) return 'badge-high';
+        if (c.includes('MEDIUM')) return 'badge-medium';
+        return 'badge-low';
+    }
+
+    function getProjectionForBet(player, bet) {
+        if (!player || !bet) return '—';
+        if (bet.prop === 'Total Bases') return (player.total_bases?.predicted ?? 0).toFixed(2) + ' TB';
+        if (bet.prop === 'Hits') return (player.hits?.predicted ?? 0).toFixed(2) + ' H';
+        if (bet.prop === 'Strikeouts') return (player.strikeouts?.predicted ?? 0).toFixed(2) + ' K';
+        return '—';
+    }
+
     async function loadPredictions() {
         try {
             const response = await fetch('data/predictions.json');
             const data = await response.json();
 
-            // Update model info
             document.getElementById('mae').textContent = data.model_performance.mae.toFixed(3);
-            document.getElementById('totalPlayers').textContent = data.total_players;
+            totalPlayersInFile = data.total_players ?? 0;
+            document.getElementById('lastUpdated').textContent = new Date(data.generated_at).toLocaleString();
+
+            gamesOnSlate = Array.isArray(data.games) ? data.games : [];
+            const gameSelect = document.getElementById('gameFilter');
+            gameSelect.innerHTML = '<option value="all">All games (full slate)</option>';
+            gamesOnSlate.forEach(g => {
+                const opt = document.createElement('option');
+                opt.value = String(g.game_id);
+                opt.textContent = g.matchup || `${g.away_team} @ ${g.home_team}`;
+                gameSelect.appendChild(opt);
+            });
+            if (gamesOnSlate.length > 0) {
+                gameSelect.value = String(gamesOnSlate[0].game_id);
+            } else {
+                gameSelect.value = 'all';
+            }
 
             const rawPlayers = data.all_predictions || [];
-
-            // Enrich each player with a primary/“best” bet and convenience fields
             allPredictions = rawPlayers.map(p => {
                 const bets = Array.isArray(p.recommended_bets) ? p.recommended_bets : [];
-                // Choose highest-probability bet as primary
                 const primaryBet = bets.length
                     ? bets.reduce((best, b) => (b.prob > best.prob ? b : best), bets[0])
                     : { prop: 'None', line: 'No edge', confidence: 'LOW', prob: 50 };
-
                 return {
                     ...p,
                     primaryBet,
@@ -376,7 +352,6 @@
                 };
             });
 
-            // Flatten all recommended bets into a bet-centric list (for "Best Bets Today")
             allBestBets = [];
             for (const p of allPredictions) {
                 const bets = Array.isArray(p.recommended_bets) ? p.recommended_bets : [];
@@ -385,15 +360,16 @@
                     allBestBets.push({
                         player_id: p.player_id,
                         player_name: p.player_name,
-                        sample: p.sample || { games_last_10: 0, pa_last_10: 0 },
+                        matchup: p.matchup,
+                        team: p.matchup?.team || '',
+                        opponent: p.matchup?.opponent || '',
+                        matchup_label: p.matchup?.label || '',
+                        game_id: p.matchup?.game_id,
                         prop: b.prop,
                         line: b.line,
                         confidence: b.confidence,
                         probability: typeof b.prob === 'number' ? b.prob : 50,
-                        projection: getProjectionForBet(p, b),
-                        recent: getRecentForProp(p, b),
-                        exit_velo: p.recent_stats?.exit_velo ?? 0,
-                        hard_hit: p.recent_stats?.hard_hit_rate ?? 0
+                        projection: getProjectionForBet(p, b)
                     });
                 }
             }
@@ -404,293 +380,275 @@
             }).length;
             document.getElementById('highConfidence').textContent = highConfCount;
 
-            const updateTime = new Date(data.generated_at);
-            document.getElementById('lastUpdated').textContent = updateTime.toLocaleString();
+            document.getElementById('gameFilter').addEventListener('change', () => {
+                updateMatchupBanner();
+                filterAndDisplay();
+            });
+            document.getElementById('confidenceFilter').addEventListener('change', filterAndDisplay);
+            document.getElementById('betTypeFilter').addEventListener('change', filterAndDisplay);
+            document.getElementById('playerSearch').addEventListener('input', filterAndDisplay);
 
+            document.querySelectorAll('#bestBetsTable th.sortable').forEach(th => {
+                th.addEventListener('click', () => onSortClick('bets', th, '#bestBetsTable'));
+            });
+            document.querySelectorAll('#predictionsTable th.sortable').forEach(th => {
+                th.addEventListener('click', () => onSortClick('pred', th, '#predictionsTable'));
+            });
+
+            updateMatchupBanner();
             filterAndDisplay();
         } catch (error) {
-            document.getElementById('predictionsBody').innerHTML =
-                `<tr><td colspan="10" class="error">Error loading predictions: ${error.message}</td></tr>`;
             document.getElementById('bestBetsBody').innerHTML =
-                `<tr><td colspan="10" class="error">Error loading bets: ${error.message}</td></tr>`;
+                `<tr><td colspan="6" class="error">Could not load data: ${escapeHtml(error.message)}</td></tr>`;
+            document.getElementById('predictionsBody').innerHTML =
+                `<tr><td colspan="7" class="error">Could not load data: ${escapeHtml(error.message)}</td></tr>`;
         }
     }
 
-    function getProjectionForBet(player, bet) {
-        if (!player || !bet) return '-';
-        if (bet.prop === 'Total Bases') return (player.total_bases?.predicted ?? 0).toFixed(2) + ' TB';
-        if (bet.prop === 'Hits') return (player.hits?.predicted ?? 0).toFixed(2) + ' H';
-        if (bet.prop === 'Strikeouts') return (player.strikeouts?.predicted ?? 0).toFixed(2) + ' K';
-        return '-';
+    function onSortClick(table, th, tableSelector) {
+        const column = th.dataset.sort;
+        const st = table === 'bets' ? sortBetsState : sortPredState;
+        if (st.column === column) {
+            st.direction = st.direction === 'asc' ? 'desc' : 'asc';
+        } else {
+            st.column = column;
+            st.direction = 'desc';
+        }
+        document.querySelectorAll(`${tableSelector} th.sortable`).forEach(h => h.classList.remove('sorted-asc', 'sorted-desc'));
+        th.classList.add(st.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
+        filterAndDisplay();
     }
 
-    function getRecentForProp(player, bet) {
-        if (!player || !bet) return '-';
-        if (bet.prop === 'Total Bases') return (player.recent_stats?.avg_tb ?? 0).toFixed(2);
-        if (bet.prop === 'Hits') return (player.recent_stats?.avg_hits ?? 0).toFixed(2);
-        if (bet.prop === 'Strikeouts') return (player.recent_stats?.avg_k ?? 0).toFixed(2);
-        return '-';
+    function updateMatchupBanner() {
+        const v = document.getElementById('gameFilter').value;
+        const banner = document.getElementById('matchupBanner');
+        if (v === 'all') {
+            banner.classList.remove('visible');
+            banner.textContent = '';
+            document.getElementById('thBetMatchup').style.display = '';
+            document.getElementById('thPredMatchup').style.display = '';
+            return;
+        }
+        const g = gamesOnSlate.find(x => String(x.game_id) === v);
+        banner.textContent = g ? `Showing: ${g.matchup}` : 'Selected game';
+        banner.classList.add('visible');
+        document.getElementById('thBetMatchup').style.display = 'none';
+        document.getElementById('thPredMatchup').style.display = 'none';
     }
 
-    // Filter and display predictions
+    function filterByGame(items, getGameId) {
+        const v = document.getElementById('gameFilter').value;
+        if (v === 'all') return items;
+        const gid = parseInt(v, 10);
+        return items.filter(x => {
+            const id = getGameId(x);
+            return id != null && id === gid;
+        });
+    }
+
     function filterAndDisplay() {
         const confidenceFilter = document.getElementById('confidenceFilter').value;
         const betTypeFilter = document.getElementById('betTypeFilter').value;
-        const searchTerm = document.getElementById('playerSearch').value.toLowerCase();
+        const searchTerm = document.getElementById('playerSearch').value.toLowerCase().trim();
+        const gameVal = document.getElementById('gameFilter').value;
+        const showMatchupCol = gameVal === 'all';
 
-        let filteredPlayers = allPredictions.filter(pred => {
+        let filteredPlayers = filterByGame(allPredictions, p => p.matchup?.game_id);
+        let filteredBets = filterByGame(allBestBets, b => b.game_id);
+
+        filteredPlayers = filteredPlayers.filter(pred => {
             const confidence = (pred.confidence || '').toLowerCase();
             const recommendation = pred.recommendation || '';
-
-            // Confidence filter
             if (confidenceFilter === 'very-high' && !confidence.includes('very high')) return false;
             if (confidenceFilter === 'high' && !confidence.includes('high')) return false;
             if (confidenceFilter === 'medium' && confidence.includes('low')) return false;
-
-            // Bet type filter (OVER/UNDER)
             if (betTypeFilter === 'over' && !recommendation.includes('OVER')) return false;
             if (betTypeFilter === 'under' && !recommendation.includes('UNDER')) return false;
-
-            // Search filter (by id or name)
             if (searchTerm) {
                 const idMatch = pred.player_id.toString().includes(searchTerm);
                 const nameMatch = (pred.player_name || '').toLowerCase().includes(searchTerm);
-                if (!idMatch && !nameMatch) return false;
+                const teamMatch = (pred.matchup?.team || '').toLowerCase().includes(searchTerm);
+                if (!idMatch && !nameMatch && !teamMatch) return false;
             }
-
             return true;
         });
 
-        let filteredBets = allBestBets.filter(bet => {
+        filteredBets = filteredBets.filter(bet => {
             const confidence = (bet.confidence || '').toLowerCase();
             const line = bet.line || '';
-
             if (confidenceFilter === 'very-high' && !confidence.includes('very high')) return false;
             if (confidenceFilter === 'high' && !confidence.includes('high')) return false;
             if (confidenceFilter === 'medium' && confidence.includes('low')) return false;
-
             if (betTypeFilter === 'over' && !line.includes('OVER')) return false;
             if (betTypeFilter === 'under' && !line.includes('UNDER')) return false;
-
             if (searchTerm) {
                 const idMatch = bet.player_id.toString().includes(searchTerm);
                 const nameMatch = (bet.player_name || '').toLowerCase().includes(searchTerm);
-                if (!idMatch && !nameMatch) return false;
+                const teamMatch = (bet.team || '').toLowerCase().includes(searchTerm);
+                if (!idMatch && !nameMatch && !teamMatch) return false;
             }
-
             return true;
         });
 
-        // Sort
-        filteredPlayers = sortPredictions(filteredPlayers);
-        filteredBets = sortBets(filteredBets);
+        filteredBets = sortBets(filteredBets, sortBetsState);
+        filteredPlayers = sortPredictions(filteredPlayers, sortPredState);
 
-        displayBets(filteredBets);
-        displayPredictions(filteredPlayers);
+        document.getElementById('totalPlayers').textContent =
+            `${filteredPlayers.length}${totalPlayersInFile ? ' / ' + totalPlayersInFile : ''}`;
+
+        displayBets(filteredBets, showMatchupCol);
+        displayPredictions(filteredPlayers, showMatchupCol);
     }
 
-    function sortBets(bets) {
-        return bets.sort((a, b) => {
-            let aVal, bVal;
-            switch (currentSort.column) {
-                case 'bet_player':
-                    aVal = (a.player_name || '').toLowerCase();
-                    bVal = (b.player_name || '').toLowerCase();
+    function sortBets(bets, st) {
+        const col = st.column;
+        const dir = st.direction === 'asc' ? 1 : -1;
+        return [...bets].sort((a, b) => {
+            let av, bv;
+            switch (col) {
+                case 'bet_matchup':
+                    av = (a.matchup_label || '').toLowerCase();
+                    bv = (b.matchup_label || '').toLowerCase();
                     break;
-                case 'bet_prop':
-                    aVal = a.prop || '';
-                    bVal = b.prop || '';
+                case 'bet_player':
+                    av = (a.player_name || '').toLowerCase();
+                    bv = (b.player_name || '').toLowerCase();
+                    break;
+                case 'bet_opp':
+                    av = (a.opponent || '').toLowerCase();
+                    bv = (b.opponent || '').toLowerCase();
                     break;
                 case 'bet_line':
-                    aVal = a.line || '';
-                    bVal = b.line || '';
+                    av = `${a.prop} ${a.line}`;
+                    bv = `${b.prop} ${b.line}`;
                     break;
                 case 'bet_probability':
-                    aVal = a.probability ?? 0;
-                    bVal = b.probability ?? 0;
+                    av = a.probability ?? 0;
+                    bv = b.probability ?? 0;
                     break;
                 case 'bet_confidence':
-                    aVal = a.confidence || '';
-                    bVal = b.confidence || '';
-                    break;
-                case 'exit_velo':
-                    aVal = a.exit_velo ?? 0;
-                    bVal = b.exit_velo ?? 0;
-                    break;
-                case 'hard_hit':
-                    aVal = a.hard_hit ?? 0;
-                    bVal = b.hard_hit ?? 0;
-                    break;
-                case 'sample':
-                    aVal = (a.sample?.pa_last_10 ?? 0);
-                    bVal = (b.sample?.pa_last_10 ?? 0);
+                    av = a.confidence || '';
+                    bv = b.confidence || '';
                     break;
                 default:
-                    aVal = a.probability ?? 0;
-                    bVal = b.probability ?? 0;
+                    av = a.probability ?? 0;
+                    bv = b.probability ?? 0;
             }
-            if (currentSort.direction === 'asc') return aVal > bVal ? 1 : -1;
-            return aVal < bVal ? 1 : -1;
+            if (av < bv) return -1 * dir;
+            if (av > bv) return 1 * dir;
+            return 0;
         });
     }
 
-    // Sort predictions
-    function sortPredictions(predictions) {
-        return predictions.sort((a, b) => {
-            let aVal, bVal;
-
-            switch (currentSort.column) {
+    function sortPredictions(list, st) {
+        const col = st.column;
+        const dir = st.direction === 'asc' ? 1 : -1;
+        return [...list].sort((a, b) => {
+            let av, bv;
+            switch (col) {
+                case 'matchup':
+                    av = (a.matchup?.label || '').toLowerCase();
+                    bv = (b.matchup?.label || '').toLowerCase();
+                    break;
                 case 'player_id':
-                    aVal = a.player_id;
-                    bVal = b.player_id;
+                    av = a.player_id;
+                    bv = b.player_id;
+                    break;
+                case 'opponent':
+                    av = (a.matchup?.opponent || '').toLowerCase();
+                    bv = (b.matchup?.opponent || '').toLowerCase();
                     break;
                 case 'probability':
-                    aVal = a.probability ?? 0;
-                    bVal = b.probability ?? 0;
+                    av = a.probability ?? 0;
+                    bv = b.probability ?? 0;
                     break;
                 case 'predicted_tb':
-                    aVal = a.total_bases?.predicted ?? 0;
-                    bVal = b.total_bases?.predicted ?? 0;
+                    av = a.total_bases?.predicted ?? 0;
+                    bv = b.total_bases?.predicted ?? 0;
                     break;
                 case 'predicted_hits':
-                    aVal = a.hits?.predicted ?? 0;
-                    bVal = b.hits?.predicted ?? 0;
+                    av = a.hits?.predicted ?? 0;
+                    bv = b.hits?.predicted ?? 0;
                     break;
                 case 'predicted_k':
-                    aVal = a.strikeouts?.predicted ?? 0;
-                    bVal = b.strikeouts?.predicted ?? 0;
-                    break;
-                case 'recent_tb':
-                    aVal = a.recent_stats?.avg_tb ?? 0;
-                    bVal = b.recent_stats?.avg_tb ?? 0;
-                    break;
-                case 'exit_velo':
-                    aVal = a.recent_stats?.exit_velo ?? 0;
-                    bVal = b.recent_stats?.exit_velo ?? 0;
-                    break;
-                case 'hard_hit':
-                    aVal = a.recent_stats?.hard_hit_rate ?? 0;
-                    bVal = b.recent_stats?.hard_hit_rate ?? 0;
+                    av = a.strikeouts?.predicted ?? 0;
+                    bv = b.strikeouts?.predicted ?? 0;
                     break;
                 default:
-                    return 0;
+                    av = a.probability ?? 0;
+                    bv = b.probability ?? 0;
             }
-
-            if (currentSort.direction === 'asc') {
-                return aVal > bVal ? 1 : -1;
-            } else {
-                return aVal < bVal ? 1 : -1;
-            }
+            if (av < bv) return -1 * dir;
+            if (av > bv) return 1 * dir;
+            return 0;
         });
     }
 
-    function displayBets(bets) {
+    function displayBets(bets, showMatchupCol) {
         const tbody = document.getElementById('bestBetsBody');
+        const nc = showMatchupCol ? 6 : 5;
         if (!bets.length) {
-            tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding:30px;">No bets match your filters</td></tr>';
+            tbody.innerHTML = `<tr><td colspan="${nc}" class="empty">No edges match these filters.</td></tr>`;
             return;
         }
-
         tbody.innerHTML = bets.map(b => {
-            const confidenceClass = (b.confidence || 'low').toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '');
-            const betClass = (b.line || '').includes('OVER') ? 'over' : ((b.line || '').includes('UNDER') ? 'under' : '');
-            const playerLabel = b.player_name ? `${b.player_name} (#${b.player_id})` : b.player_id;
-            const sampleLabel = `${b.sample?.games_last_10 ?? 0}g / ${b.sample?.pa_last_10 ?? 0} PA`;
-
-            return `
-                <tr>
-                    <td class="player-name">${playerLabel}</td>
-                    <td>${b.prop}</td>
-                    <td class="recommendation ${betClass}">${b.line}</td>
-                    <td class="probability">${(b.probability ?? 50).toFixed(1)}%</td>
-                    <td><span class="confidence-badge confidence-${confidenceClass}">${b.confidence}</span></td>
-                    <td>${b.projection}</td>
-                    <td>${b.recent}</td>
-                    <td>${(b.exit_velo ?? 0).toFixed(1)} mph</td>
-                    <td>${(b.hard_hit ?? 0).toFixed(1)}%</td>
-                    <td>${sampleLabel}</td>
-                </tr>
-            `;
+            const pickClass = (b.line || '').includes('OVER') ? 'over' : ((b.line || '').includes('UNDER') ? 'under' : '');
+            const mCol = showMatchupCol
+                ? `<td class="muted col-matchup">${escapeHtml(b.matchup_label || '—')}</td>`
+                : '';
+            return `<tr>
+                ${mCol}
+                <td class="player-cell">
+                    <div class="name">${escapeHtml(b.player_name || '')}</div>
+                    <div class="meta">${escapeHtml(b.team || 'Team TBD')}</div>
+                </td>
+                <td class="hide-narrow muted">${escapeHtml(b.opponent || '—')}</td>
+                <td><span class="pick ${pickClass}">${escapeHtml(b.prop)}: ${escapeHtml(b.line)}</span></td>
+                <td class="prob">${(b.probability ?? 0).toFixed(1)}%</td>
+                <td><span class="badge ${badgeClass(b.confidence)}">${escapeHtml(b.confidence)}</span></td>
+            </tr>`;
         }).join('');
     }
 
-    // Display predictions in table
-    function displayPredictions(predictions) {
+    function displayPredictions(preds, showMatchupCol) {
         const tbody = document.getElementById('predictionsBody');
-
-        if (predictions.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding:30px;">No predictions match your filters</td></tr>';
+        const nc = showMatchupCol ? 7 : 6;
+        if (!preds.length) {
+            tbody.innerHTML = `<tr><td colspan="${nc}" class="empty">No players match these filters.</td></tr>`;
             return;
         }
-
-        tbody.innerHTML = predictions.map(pred => {
-            const confidenceClass = (pred.confidence || 'low').toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '');
+        tbody.innerHTML = preds.map(pred => {
             const rec = pred.recommendation || '';
-            const betClass = rec.includes('OVER') ? 'over' : (rec.includes('UNDER') ? 'under' : '');
-            const probability = pred.probability ?? 50;
-
-            const tbPred = pred.total_bases?.predicted ?? 0;
-            const hitsPred = pred.hits?.predicted ?? 0;
-            const kPred = pred.strikeouts?.predicted ?? 0;
-
-            const recentTb = pred.recent_stats?.avg_tb ?? 0;
-            const exitVelo = pred.recent_stats?.exit_velo ?? 0;
-            const hardHit = (pred.recent_stats?.hard_hit_rate ?? 0);
-
-            const playerLabel = pred.player_name
-                ? `${pred.player_name} (#${pred.player_id})`
-                : pred.player_id;
-
-            const tbO15 = pred.total_bases?.probabilities?.['over_1.5'];
-            const hitsO05 = pred.hits?.probabilities?.['over_0.5'];
-            const kO05 = pred.strikeouts?.probabilities?.['over_0.5'];
-
-            return `
-                <tr>
-                    <td class="player-name">${playerLabel}</td>
-                    <td class="recommendation ${betClass}">${rec}</td>
-                    <td><span class="confidence-badge confidence-${confidenceClass}">${pred.confidence}</span></td>
-                    <td class="probability">${probability.toFixed(1)}%</td>
-                    <td>${tbPred.toFixed(2)} <span class="recent-stats">(${tbO15?.toFixed ? tbO15.toFixed(1) : '-'}%)</span></td>
-                    <td>${hitsPred.toFixed(2)} <span class="recent-stats">(${hitsO05?.toFixed ? hitsO05.toFixed(1) : '-'}%)</span></td>
-                    <td>${kPred.toFixed(2)} <span class="recent-stats">(${kO05?.toFixed ? kO05.toFixed(1) : '-'}%)</span></td>
-                    <td>${recentTb.toFixed(2)}</td>
-                    <td>${exitVelo.toFixed(1)} mph</td>
-                    <td>${hardHit.toFixed(1)}%</td>
-                </tr>
-            `;
+            const pickClass = rec.includes('OVER') ? 'over' : (rec.includes('UNDER') ? 'under' : '');
+            const m = pred.matchup;
+            const mCol = showMatchupCol
+                ? `<td class="muted col-matchup">${escapeHtml(m?.label || '—')}</td>`
+                : '';
+            const tb = pred.total_bases?.predicted ?? 0;
+            const hh = pred.hits?.predicted ?? 0;
+            const kk = pred.strikeouts?.predicted ?? 0;
+            const tbP = pred.total_bases?.probabilities?.['over_1.5'];
+            const hP = pred.hits?.probabilities?.['over_0.5'];
+            const kP = pred.strikeouts?.probabilities?.['over_0.5'];
+            return `<tr>
+                ${mCol}
+                <td class="player-cell">
+                    <div class="name">${escapeHtml(pred.player_name || '')}</div>
+                    <div class="meta">${escapeHtml(m?.team || 'Team TBD')}</div>
+                </td>
+                <td class="hide-narrow muted">${escapeHtml(m?.opponent || '—')}</td>
+                <td>
+                    <span class="pick ${pickClass}">${escapeHtml(rec)}</span>
+                    <div class="muted">${(pred.probability ?? 0).toFixed(1)}% &nbsp;·&nbsp; xwOBA ${(pred.recent_stats?.xwoba ?? 0).toFixed(3)}</div>
+                </td>
+                <td class="hide-narrow">${tb.toFixed(2)} <span class="muted">(${tbP != null ? tbP.toFixed(0) : '—'}%)</span></td>
+                <td class="hide-narrow">${hh.toFixed(2)} <span class="muted">(${hP != null ? hP.toFixed(0) : '—'}%)</span></td>
+                <td class="hide-narrow">${kk.toFixed(2)} <span class="muted">(${kP != null ? kP.toFixed(0) : '—'}%)</span></td>
+            </tr>`;
         }).join('');
     }
 
-    // Handle column sorting
-    document.querySelectorAll('th.sortable').forEach(th => {
-        th.addEventListener('click', () => {
-            const column = th.dataset.sort;
-
-            if (currentSort.column === column) {
-                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
-            } else {
-                currentSort.column = column;
-                currentSort.direction = 'desc';
-            }
-
-            document.querySelectorAll('th.sortable').forEach(header => {
-                header.classList.remove('sorted-asc', 'sorted-desc');
-            });
-
-            th.classList.add(currentSort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
-
-            filterAndDisplay();
-        });
-    });
-
-    // Handle filter changes
-    document.getElementById('confidenceFilter').addEventListener('change', filterAndDisplay);
-    document.getElementById('betTypeFilter').addEventListener('change', filterAndDisplay);
-    document.getElementById('playerSearch').addEventListener('input', filterAndDisplay);
-
-    // Load predictions on page load
     loadPredictions();
-</script>
+    </script>
 </body>
 </html>
